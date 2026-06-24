@@ -1,0 +1,6 @@
+.git
+.gitattributes
+.gitignore
+target
+*.postman_collection.json
+docker-compose.yml

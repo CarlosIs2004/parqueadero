@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  # Base de datos unificada
+  db_postgres:
+    image: postgres:15
+    container_name: postgres_data
+    environment:
+      POSTGRES_USER: ${DB_USER} 
+      POSTGRES_PASSWORD: ${DB_PASSWORD} 
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-net
+
+  # Microservicios
+  vehiculos:
+    build: ./vehiculos
+    container_name: vehiculos_app
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000 
+      DB_HOST: db_postgres
+      DB_PORT: 5432
+      DB_USUARIO: ${DB_USER}
+      DB_CONTRASENA: ${DB_PASSWORD}
+      DB_NOMBRE: ${DB_NAME}
+
+    depends_on:
+      - db_postgres
+    networks:
+      - app-net
+
+  usuarios:
+    build: ./usuarios
+    container_name: usuarios_app
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DB_HOST: db_postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: usuarios_db
+    depends_on:
+      - db_postgres
+    networks:
+      - app-net
+
+  zonas:
+    build: ./zonas
+    container_name: zonas_app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db_postgres:5432/zonas_db
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db_postgres
+    networks:
+      - app-net
+
+  reservas:
+    build: ./reservas
+    container_name: reservas_app
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      DB_HOST: db_postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: reservas_db
+      VEHICULOS_API_URL: http://kong:8000/api/vehiculos
+    depends_on:
+      - db_postgres
+    networks:
+      - app-net
+
+  kong:
+    image: kong:latest
+    container_name: kong_gateway
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+      - "8001:8001"
+    volumes:
+      - ./gateway/kong.yml:/usr/local/kong/declarative/kong.yml:ro
+    depends_on:
+      - vehiculos
+      - usuarios
+      - zonas
+    networks:
+      - app-net
+
+volumes:
+  postgres_data:
+
+networks:
+  app-net:

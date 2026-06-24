@@ -1,0 +1,101 @@
+_format_version: "3.0"
+
+services:
+  - name: usuarios-users-service
+    url: http://usuarios_app:3001/users
+    routes:
+      - name: usuarios-route
+        paths:
+          - /api/usuarios
+        strip_path: true
+
+  - name: usuarios-persons-service
+    url: http://usuarios_app:3001/persons
+    routes:
+      - name: persons-route
+        paths:
+          - /api/persons
+        strip_path: true
+
+  - name: usuarios-roles-service
+    url: http://usuarios_app:3001/roles
+    routes:
+      - name: roles-route
+        paths:
+          - /api/roles
+        strip_path: true
+
+  - name: usuarios-user-role-service
+    url: http://usuarios_app:3001/user-role
+    routes:
+      - name: user-role-route
+        paths:
+          - /api/user-role
+        strip_path: true
+
+  - name: vehiculos-service
+    url: http://vehiculos_app:3000/vehiculos
+    routes:
+      - name: vehiculos-route
+        paths:
+          - /api/vehiculos
+        strip_path: true
+
+  - name: zonas-service
+    url: http://zonas:8080/api/v1/zonas
+    routes:
+      - name: zonas-route
+        paths:
+          - /api/zonas
+        strip_path: true
+
+  - name: espacios-service
+    url: http://zonas:8080/api/v1/espacios
+    routes:
+      - name: espacios-route
+        paths:
+          - /api/espacios
+        strip_path: true
+
+  - name: zonas-swagger-service
+    url: http://zonas:8080
+    routes:
+      - name: zonas-swagger-route
+        paths:
+          - /api/swagger/zonas
+        strip_path: false
+
+  - name: reservas-asignaciones-service
+    url: http://reservas_app:3002/asignaciones
+    routes:
+      - name: asignaciones-route
+        paths:
+          - /api/asignaciones
+        strip_path: true
+
+  - name: reservas-trazabilidad-service
+    url: http://reservas_app:3002/trazabilidad
+    routes:
+      - name: trazabilidad-route
+        paths:
+          - /api/trazabilidad
+        strip_path: true
+
+plugins:
+  - name: rate-limiting
+    config:
+      minute: 30
+      policy: local
+  - name: cors
+    config:
+      origins:
+        - "*"
+      methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+      headers:
+        - Content-Type
+        - Authorization
