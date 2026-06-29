@@ -59,6 +59,15 @@ export class UsersService implements IUsersService {
     return user;
   }
 
+  async validateUser(username: string, password: string): Promise<User | null> {
+    const user = await this.findByUsername(username);
+    if (!user) return null;
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) return null;
+    if (!user.active) return null;
+    return user;
+  }
+
   async findByUsername(username: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { username } });
   }
