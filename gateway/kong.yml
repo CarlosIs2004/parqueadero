@@ -9,6 +9,14 @@ services:
           - /api/usuarios
         strip_path: true
 
+  - name: usuarios-auth-service
+    url: http://usuarios_app:3001/auth
+    routes:
+      - name: auth-route
+        paths:
+          - /api/auth
+        strip_path: true
+
   - name: usuarios-persons-service
     url: http://usuarios_app:3001/persons
     routes:
