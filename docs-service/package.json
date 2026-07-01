@@ -1,0 +1,13 @@
+{
+  "name": "docs-service",
+  "version": "1.0.0",
+  "description": "Documentation hub for API Gateway",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "swagger-ui-dist": "^5.0.0"
+  }
+}
