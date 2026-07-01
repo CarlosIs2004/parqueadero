@@ -37,6 +37,7 @@ async function bootstrap() {
     .setTitle('Microservicio de Asignación y Trazabilidad')
     .setDescription('Gestión de asignación de vehículos a propietarios y auditoría')
     .setVersion('1.0')
+    .addServer('http://localhost:8000')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs/reservas', app, document);
