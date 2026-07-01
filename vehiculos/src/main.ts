@@ -12,6 +12,7 @@ async function bootstrap() {
     .setTitle('Vehículos API')
     .setDescription('API para la gestión de vehículos (Autos, Motocicletas, Camionetas)')
     .setVersion('1.0')
+    .addServer('http://localhost:8000')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs/vehiculos', app, document);

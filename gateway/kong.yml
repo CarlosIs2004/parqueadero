@@ -121,6 +121,95 @@ services:
           - /api/trazabilidad
         strip_path: true
 
+  # ─── Rutas directas para Try it out de Swagger ───────────────
+  - name: raw-usuarios-users
+    url: http://usuarios_app:3001/users
+    routes:
+      - name: raw-usuarios-users-route
+        paths:
+          - /users
+        strip_path: true
+
+  - name: raw-usuarios-persons
+    url: http://usuarios_app:3001/persons
+    routes:
+      - name: raw-usuarios-persons-route
+        paths:
+          - /persons
+        strip_path: true
+
+  - name: raw-usuarios-roles
+    url: http://usuarios_app:3001/roles
+    routes:
+      - name: raw-usuarios-roles-route
+        paths:
+          - /roles
+        strip_path: true
+
+  - name: raw-usuarios-user-role
+    url: http://usuarios_app:3001/user-role
+    routes:
+      - name: raw-usuarios-user-role-route
+        paths:
+          - /user-role
+        strip_path: true
+
+  - name: raw-usuarios-auth
+    url: http://usuarios_app:3001/auth
+    routes:
+      - name: raw-usuarios-auth-route
+        paths:
+          - /auth
+        strip_path: true
+
+  - name: raw-usuarios-root
+    url: http://usuarios_app:3001
+    routes:
+      - name: raw-usuarios-root-route
+        paths:
+          - /
+        strip_path: false
+
+  - name: raw-vehiculos
+    url: http://vehiculos_app:3000/vehiculos
+    routes:
+      - name: raw-vehiculos-route
+        paths:
+          - /vehiculos
+        strip_path: true
+
+  - name: raw-reservas-asignaciones
+    url: http://reservas_app:3002/asignaciones
+    routes:
+      - name: raw-reservas-asignaciones-route
+        paths:
+          - /asignaciones
+        strip_path: true
+
+  - name: raw-reservas-trazabilidad
+    url: http://reservas_app:3002/trazabilidad
+    routes:
+      - name: raw-reservas-trazabilidad-route
+        paths:
+          - /trazabilidad
+        strip_path: true
+
+  - name: raw-zonas-zonas
+    url: http://zonas:8080/api/v1/zonas
+    routes:
+      - name: raw-zonas-zonas-route
+        paths:
+          - /api/v1/zonas
+        strip_path: true
+
+  - name: raw-zonas-espacios
+    url: http://zonas:8080/api/v1/espacios
+    routes:
+      - name: raw-zonas-espacios-route
+        paths:
+          - /api/v1/espacios
+        strip_path: true
+
 plugins:
   - name: rate-limiting
     config:

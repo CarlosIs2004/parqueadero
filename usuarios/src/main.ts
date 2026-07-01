@@ -12,6 +12,7 @@ async function bootstrap() {
       'Documentación de la API de gestión de usuarios,personas, roles y asignaciones',
     )
     .setVersion('1.0')
+    .addServer('http://localhost:8000')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs/usuarios', app, document);
