@@ -87,6 +87,16 @@ services:
     networks:
       - app-net
 
+  docs:
+    build: ./docs-service
+    container_name: docs_service
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+    networks:
+      - app-net
+
   kong:
     image: kong:latest
     container_name: kong_gateway
@@ -108,6 +118,7 @@ services:
       - vehiculos
       - usuarios
       - zonas
+      - docs
     networks:
       - app-net
 

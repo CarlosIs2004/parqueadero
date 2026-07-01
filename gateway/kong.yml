@@ -73,6 +73,38 @@ services:
           - /api/swagger/zonas
         strip_path: false
 
+  - name: usuarios-docs-service
+    url: http://usuarios_app:3001
+    routes:
+      - name: usuarios-docs-route
+        paths:
+          - /api/docs/usuarios
+        strip_path: false
+
+  - name: vehiculos-docs-service
+    url: http://vehiculos_app:3000
+    routes:
+      - name: vehiculos-docs-route
+        paths:
+          - /api/docs/vehiculos
+        strip_path: false
+
+  - name: reservas-docs-service
+    url: http://reservas_app:3002
+    routes:
+      - name: reservas-docs-route
+        paths:
+          - /api/docs/reservas
+        strip_path: false
+
+  - name: docs-hub-service
+    url: http://docs_service:3003
+    routes:
+      - name: docs-hub-route
+        paths:
+          - /api/docs
+        strip_path: true
+
   - name: reservas-asignaciones-service
     url: http://reservas_app:3002/asignaciones
     routes:
