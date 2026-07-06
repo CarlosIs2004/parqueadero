@@ -66,4 +66,14 @@ export class UserRoleService implements IUserRoleService {
       relations: { user: true },
     });
   }
+
+  async hardDelete(idUser: string, idRole: string): Promise<void> {
+    const userRole = await this.userRoleRepository.findOne({
+      where: { idUser, idRole },
+    });
+    if (!userRole) {
+      throw new NotFoundException('Role assignment not found');
+    }
+    await this.userRoleRepository.remove(userRole);
+  }
 }

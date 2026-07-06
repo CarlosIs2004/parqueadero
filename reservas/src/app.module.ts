@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AsignacionesModule } from './asignaciones/asignaciones.module';
 import { TrazabilidadModule } from './trazabilidad/trazabilidad.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TrazabilidadModule } from './trazabilidad/trazabilidad.module';
       synchronize: process.env.DB_SYNCHRONIZE === 'true' || true,
     }),
     EventEmitterModule.forRoot(),
+    AuthModule,
     AsignacionesModule,
     TrazabilidadModule,
   ],

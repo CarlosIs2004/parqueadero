@@ -6,4 +6,5 @@ export interface IPersonsService {
   findOne(id: string): Promise<Person>;
   update(id: string, updatePersonDto: UpdatePersonDto): Promise<Person>;
   softDelete(id: string): Promise<void>;
+  hardDelete(id: string): Promise<void>;
 }

@@ -24,6 +24,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 @ApiTags('Usuarios')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('admin', 'root')
 @Controller('users')
 export class UsersController {
   constructor(
@@ -99,5 +100,14 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.softDelete(id);
+  }
+
+  @Delete(':id/hard')
+  @Roles('root')
+  @ApiOperation({ summary: 'Eliminar físicamente un usuario (root)' })
+  @ApiResponse({ status: 200, description: 'Usuario eliminado físicamente' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+  hardRemove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.hardDelete(id);
   }
 }

@@ -13,10 +13,11 @@ async function bootstrap() {
     .setDescription('API para la gestión de vehículos (Autos, Motocicletas, Camionetas)')
     .setVersion('1.0')
     .addServer('http://localhost:8000')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs/vehiculos', app, document);
 
-  await app.listen(process.env.PORT ?? 3001);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

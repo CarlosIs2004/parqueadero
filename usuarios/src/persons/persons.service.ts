@@ -97,4 +97,15 @@ export class PersonsService implements IPersonsService {
     await this.personsRepository.save(person);
     await this.usersService.softDelete(id);
   }
+
+  async hardDelete(id: string): Promise<void> {
+    const person = await this.personsRepository.findOne({
+      where: { id },
+      relations: { user: true },
+    });
+    if (!person) {
+      throw new NotFoundException(`Person with id ${id} not found`);
+    }
+    await this.personsRepository.remove(person);
+  }
 }

@@ -60,4 +60,9 @@ export class RolesService implements IRolesService {
   async softDelete(id: string): Promise<void> {
     await this.update(id, { active: false });
   }
+
+  async hardDelete(id: string): Promise<void> {
+    const role = await this.findOne(id);
+    await this.rolesRepository.remove(role);
+  }
 }
