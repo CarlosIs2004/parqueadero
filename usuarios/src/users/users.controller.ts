@@ -8,16 +8,22 @@ import {
   Delete,
   ParseUUIDPipe,
   Inject,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
 import type { IUsersService } from './interfaces/users-service.interface';
 import type { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ResponseUserDto } from './dto/response-user.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @ApiTags('Usuarios')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(
@@ -26,6 +32,7 @@ export class UsersController {
   ) {}
 
   @Post()
+  @Roles('admin')
   @ApiOperation({ summary: 'Crear un usuario' })
   @ApiResponse({
     status: 201,
@@ -38,6 +45,7 @@ export class UsersController {
   }
 
   @Get()
+  @Roles('admin')
   @ApiOperation({ summary: 'Obtener todos los usuarios' })
   @ApiResponse({
     status: 200,
@@ -49,6 +57,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @Roles('admin')
   @ApiOperation({ summary: 'Obtener un usuario por ID' })
   @ApiResponse({
     status: 200,
@@ -61,6 +70,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @Roles('admin')
   @ApiOperation({ summary: 'Actualizar un usuario' })
   @ApiResponse({
     status: 200,
@@ -83,6 +93,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @Roles('admin')
   @ApiOperation({ summary: 'Eliminar (soft delete) un usuario' })
   @ApiResponse({ status: 200, description: 'Usuario desactivado exitosamente' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })

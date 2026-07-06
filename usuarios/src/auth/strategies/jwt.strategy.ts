@@ -16,11 +16,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { sub: string; username: string }) {
+  async validate(payload: {
+    sub: string;
+    username: string;
+    roles: string[];
+  }) {
     const user = await this.usersService.findOne(payload.sub);
     if (!user) {
       throw new UnauthorizedException('Token inválido: usuario no existe');
     }
-    return { idPerson: user.idPerson, username: user.username };
+    return { idPerson: user.idPerson, username: user.username, roles: payload.roles || [] };
   }
 }

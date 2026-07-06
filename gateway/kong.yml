@@ -25,6 +25,17 @@ services:
           - /api/persons
         strip_path: true
 
+  - name: usuarios-persons-me-service
+    url: http://usuarios_app:3001
+    routes:
+      - name: persons-me-route
+        paths:
+          - /api/persons/me
+        strip_path: false
+        methods:
+          - GET
+          - PATCH
+
   - name: usuarios-roles-service
     url: http://usuarios_app:3001/roles
     routes:
@@ -177,6 +188,17 @@ services:
         paths:
           - /auth
         strip_path: true
+
+  - name: raw-usuarios-persons-me
+    url: http://usuarios_app:3001
+    routes:
+      - name: raw-usuarios-persons-me-route
+        paths:
+          - /persons/me
+        strip_path: false
+        methods:
+          - GET
+          - PATCH
 
   - name: raw-usuarios-root
     url: http://usuarios_app:3001
