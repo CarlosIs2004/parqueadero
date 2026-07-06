@@ -13,6 +13,7 @@ const SERVICES = [
   { id: 'usuarios',   name: 'Usuarios',   url: '/api/docs/usuarios-json' },
   { id: 'vehiculos',  name: 'Vehículos',  url: '/api/docs/vehiculos-json' },
   { id: 'reservas',   name: 'Reservas',   url: '/api/docs/reservas-json' },
+  { id: 'tickets',    name: 'Tickets',    url: '/api/docs/tickets-json' },
   { id: 'zonas',      name: 'Zonas',      url: '/api/swagger/zonas/api-docs' },
 ];
 
