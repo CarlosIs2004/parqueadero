@@ -22,6 +22,7 @@ import ec.edu.espe.zonas.entidades.EstadoEspacio;
 import ec.edu.espe.zonas.services.EspacioServicio;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/espacios")
 @RequiredArgsConstructor
 @Tag(name = "Espacios", description = "CRUD de espacios de estacionamiento")
+@SecurityRequirement(name = "bearerAuth")
 public class EspacioControlador {
 
     private final EspacioServicio espacioServicio; 
