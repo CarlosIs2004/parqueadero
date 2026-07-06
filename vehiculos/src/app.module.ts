@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VehiculosModule } from './vehiculos/vehiculos.module';
+import { AuthModule } from './auth/auth.module';
 import { Vehiculo } from './vehiculos/entities/vehiculo.entity';
 import { Auto } from './vehiculos/entities/auto.entity';
 import { Motocicleta } from './vehiculos/entities/motocicleta.entity';
@@ -28,6 +29,7 @@ import { Camioneta } from './vehiculos/entities/camioneta.entity';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
     VehiculosModule,
   ],
 })

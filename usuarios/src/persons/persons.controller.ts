@@ -135,4 +135,15 @@ export class PersonsController {
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.personsService.softDelete(id);
   }
+
+  @Delete(':id/hard')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('root')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Eliminar físicamente una persona (root)' })
+  @ApiResponse({ status: 200, description: 'Persona eliminada físicamente' })
+  @ApiResponse({ status: 404, description: 'Persona no encontrada' })
+  hardRemove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.personsService.hardDelete(id);
+  }
 }

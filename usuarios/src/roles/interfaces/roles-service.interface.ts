@@ -7,4 +7,5 @@ export interface IRolesService {
   findOne(id: string): Promise<Role>;
   update(id: string, updateData: Partial<Role>): Promise<Role>;
   softDelete(id: string): Promise<void>;
+  hardDelete(id: string): Promise<void>;
 }

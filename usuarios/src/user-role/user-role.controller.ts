@@ -19,7 +19,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 @ApiTags('Asignación Roles')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('admin')
+@Roles('admin', 'root')
 @Controller('user-role')
 export class UserRoleController {
   constructor(
@@ -47,6 +47,18 @@ export class UserRoleController {
     @Param('idRole', ParseUUIDPipe) idRole: string,
   ) {
     return this.userRoleService.removeRole(idUser, idRole);
+  }
+
+  @Delete(':idUser/:idRole/hard')
+  @Roles('root')
+  @ApiOperation({ summary: 'Eliminar físicamente asignación (root)' })
+  @ApiResponse({ status: 200, description: 'Asignación eliminada físicamente' })
+  @ApiResponse({ status: 404, description: 'Asignación no encontrada' })
+  hardRemoveRole(
+    @Param('idUser', ParseUUIDPipe) idUser: string,
+    @Param('idRole', ParseUUIDPipe) idRole: string,
+  ) {
+    return this.userRoleService.hardDelete(idUser, idRole);
   }
 
   @Get('user/:idUser')

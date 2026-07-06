@@ -89,4 +89,9 @@ export class UsersService implements IUsersService {
   async softDelete(id: string): Promise<void> {
     await this.update(id, { active: false });
   }
+
+  async hardDelete(id: string): Promise<void> {
+    const user = await this.findOne(id);
+    await this.usersRepository.remove(user);
+  }
 }

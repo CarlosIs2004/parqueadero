@@ -22,7 +22,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 @ApiTags('Roles')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('admin')
+@Roles('admin', 'root')
 @Controller('roles')
 export class RolesController {
   constructor(
@@ -89,5 +89,14 @@ export class RolesController {
   @ApiResponse({ status: 404, description: 'Rol no encontrado' })
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.rolesService.softDelete(id);
+  }
+
+  @Delete(':id/hard')
+  @Roles('root')
+  @ApiOperation({ summary: 'Eliminar físicamente un rol (root)' })
+  @ApiResponse({ status: 200, description: 'Rol eliminado físicamente' })
+  @ApiResponse({ status: 404, description: 'Rol no encontrado' })
+  hardRemove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.rolesService.hardDelete(id);
   }
 }

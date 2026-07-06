@@ -6,4 +6,5 @@ export interface IUserRoleService {
   removeRole(idUser: string, idRole: string): Promise<void>;
   findRolesByUser(idUser: string): Promise<UserRole[]>;
   findUsersByRole(idRole: string): Promise<UserRole[]>;
+  hardDelete(idUser: string, idRole: string): Promise<void>;
 }

@@ -9,4 +9,5 @@ export interface IUsersService {
   findByUsername(username: string): Promise<User | null>;
   update(id: string, updateData: Partial<User>): Promise<User>;
   softDelete(id: string): Promise<void>;
+  hardDelete(id: string): Promise<void>;
 }
