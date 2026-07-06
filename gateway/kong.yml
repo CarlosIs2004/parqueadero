@@ -105,6 +105,22 @@ services:
           - /api/docs
         strip_path: true
 
+  - name: tickets-service
+    url: http://tickets_app:3004/tickets
+    routes:
+      - name: tickets-route
+        paths:
+          - /api/tickets
+        strip_path: true
+
+  - name: tickets-docs-service
+    url: http://tickets_app:3004
+    routes:
+      - name: tickets-docs-route
+        paths:
+          - /api/docs/tickets
+        strip_path: false
+
   - name: reservas-asignaciones-service
     url: http://reservas_app:3002/asignaciones
     routes:
@@ -176,6 +192,14 @@ services:
       - name: raw-vehiculos-route
         paths:
           - /vehiculos
+        strip_path: true
+
+  - name: raw-tickets
+    url: http://tickets_app:3004/tickets
+    routes:
+      - name: raw-tickets-route
+        paths:
+          - /tickets
         strip_path: true
 
   - name: raw-reservas-asignaciones
