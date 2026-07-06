@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { AuthSeedService } from './auth-seed.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
@@ -27,7 +28,7 @@ import { UsersModule } from '../users/users.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard, AuthSeedService],
   exports: [JwtStrategy, PassportModule, JwtAuthGuard, RolesGuard, AuthService],
 })
 export class AuthModule {}
