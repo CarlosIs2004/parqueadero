@@ -1,11 +1,11 @@
 {
   "item": [
     {
-      "id": "dba8d4dd-00f8-40e6-b0bd-bbb1ec686459",
+      "id": "a2db50b2-5fb4-4fec-887e-c38a083bf9c1",
       "name": "Auth (usuarios)",
       "item": [
         {
-          "id": "8c8063f6-63f7-42ce-8e2e-c138dc388217",
+          "id": "151a0115-cdba-40aa-a673-94b77684651a",
           "name": "Login",
           "request": {
             "url": {
@@ -70,7 +70,7 @@
           ]
         },
         {
-          "id": "e2c252ef-1b56-4804-81a6-bd2297ce5ec0",
+          "id": "95d7e9e3-95ac-4d8d-91f1-ead5f031325a",
           "name": "Register",
           "request": {
             "url": {
@@ -125,7 +125,7 @@
           "event": []
         },
         {
-          "id": "10e47eb0-1088-4400-851e-169f663f344a",
+          "id": "2a6d47d0-2d88-4cee-9b73-f326ea52e456",
           "name": "Refresh Token",
           "request": {
             "url": {
@@ -183,11 +183,11 @@
       "event": []
     },
     {
-      "id": "b3b7bab7-f9f5-495f-95df-7662cd02e7ae",
+      "id": "1d592095-4bd7-4b60-821b-5b9db7f330ad",
       "name": "Persons (usuarios)",
       "item": [
         {
-          "id": "1ac5b661-d0f1-4345-90f6-ab6192436145",
+          "id": "d11b7f46-c00b-406d-8588-d00c26dc5d05",
           "name": "Create Person (admin)",
           "request": {
             "url": {
@@ -245,7 +245,7 @@
           "event": []
         },
         {
-          "id": "342e9755-e524-42df-ba2a-c33003c82938",
+          "id": "e6be768a-6f68-44aa-8f71-f95dc58a7b43",
           "name": "Get My Profile (auth)",
           "request": {
             "url": {
@@ -307,7 +307,7 @@
           ]
         },
         {
-          "id": "bdb1f3f1-6f9c-4079-89ed-cfce1462e6a3",
+          "id": "62c944cb-98b0-4d40-bde5-c7a404e48a95",
           "name": "Update My Profile (auth)",
           "request": {
             "url": {
@@ -366,7 +366,7 @@
           "event": []
         },
         {
-          "id": "37fbaa5b-ec8d-4438-9636-1fd7e362aeb7",
+          "id": "2d52cc93-c3e6-46bf-b0a9-46f4654ac444",
           "name": "Get All Persons (admin)",
           "request": {
             "url": {
@@ -411,7 +411,7 @@
           "event": []
         },
         {
-          "id": "d14fc0a6-8ac4-47fc-928e-00f56cf4bd87",
+          "id": "071105ec-8dd9-439f-8118-b0828a7eccb4",
           "name": "Get Person By ID (admin)",
           "request": {
             "url": {
@@ -457,7 +457,7 @@
           "event": []
         },
         {
-          "id": "fb0d3fc9-d0ea-45dc-8083-6da637ac3725",
+          "id": "82be429a-380f-494b-b827-550fce4bf232",
           "name": "Update Person (admin)",
           "request": {
             "url": {
@@ -516,7 +516,7 @@
           "event": []
         },
         {
-          "id": "bc51fd71-0fa1-4f4f-b8a7-9586d3cb3be8",
+          "id": "9a86a7be-6ec7-4b3f-b5f9-7f024f99cf1a",
           "name": "Delete Person (admin/soft)",
           "request": {
             "url": {
@@ -562,7 +562,7 @@
           "event": []
         },
         {
-          "id": "b857925c-db16-4f4a-bb27-810af81e8969",
+          "id": "dec464fb-9c2b-4dbe-9ceb-43c74009dbc7",
           "name": "Hard Delete Person (root)",
           "request": {
             "url": {
@@ -612,11 +612,11 @@
       "event": []
     },
     {
-      "id": "9199cf05-9e38-4d79-9daf-8b5066832504",
+      "id": "288830d3-330d-4aa3-bbc8-9c2fbcaa6285",
       "name": "Users (usuarios)",
       "item": [
         {
-          "id": "848aef99-8b48-4889-bb6a-39451d7f3256",
+          "id": "86db27a2-ef88-4f23-833e-40ed7c338c27",
           "name": "Create User (admin)",
           "request": {
             "url": {
@@ -675,7 +675,7 @@
           "event": []
         },
         {
-          "id": "94d6d18f-4ee5-4506-8467-a185be9219be",
+          "id": "d352a3e9-06c9-4f17-aa36-b301ab619c51",
           "name": "Get All Users (admin)",
           "request": {
             "url": {
@@ -721,7 +721,7 @@
           "event": []
         },
         {
-          "id": "850c4a5d-adb6-4aeb-bdeb-daf6bf879450",
+          "id": "06eacfac-1b87-4ed4-968f-053cd96502a2",
           "name": "Get User By ID (admin)",
           "request": {
             "url": {
@@ -768,7 +768,7 @@
           "event": []
         },
         {
-          "id": "a0d38e5f-ba96-4f0c-af4e-0e6e762b4a80",
+          "id": "be0672c5-8c01-4341-9a25-e28136e017e3",
           "name": "Update User (admin)",
           "request": {
             "url": {
@@ -828,7 +828,7 @@
           "event": []
         },
         {
-          "id": "bb4d63f1-a967-4efe-b9b0-c5741ba28836",
+          "id": "bae52bc5-af77-4502-ba24-6ba90bd11eee",
           "name": "Delete User (admin/soft)",
           "request": {
             "url": {
@@ -875,7 +875,7 @@
           "event": []
         },
         {
-          "id": "2a19f793-b4da-47c9-80ea-4edf5163b3a3",
+          "id": "504b3cce-1626-4de7-8aff-5e3a878bc777",
           "name": "Hard Delete User (root)",
           "request": {
             "url": {
@@ -926,11 +926,11 @@
       "event": []
     },
     {
-      "id": "31a7f6a2-4fbf-4767-a0a8-877432cd4e01",
+      "id": "b7049ece-082c-4e6b-bafd-366eadd54b76",
       "name": "Roles (usuarios)",
       "item": [
         {
-          "id": "49747cc6-4916-4360-b6b0-e3b4324d1895",
+          "id": "2357f2c8-de49-4c52-8d37-6b365fbf22d1",
           "name": "Create Role (admin/root)",
           "request": {
             "url": {
@@ -999,7 +999,7 @@
           ]
         },
         {
-          "id": "811eed66-6957-4e64-886c-565a3c29c8f4",
+          "id": "03b84e78-7bc7-405c-9229-32e5956746b1",
           "name": "Get All Roles (admin/root)",
           "request": {
             "url": {
@@ -1045,7 +1045,7 @@
           "event": []
         },
         {
-          "id": "35ced659-a251-4fa6-95b3-0a5bb679838c",
+          "id": "3f556d52-d286-40b7-90dc-5e0cecb49f8b",
           "name": "Get Role By ID (admin/root)",
           "request": {
             "url": {
@@ -1092,7 +1092,7 @@
           "event": []
         },
         {
-          "id": "f1358566-db22-4cc4-abcf-1986828ceb32",
+          "id": "b26335c8-5af7-427c-8ac8-708285e1c01d",
           "name": "Update Role (admin/root)",
           "request": {
             "url": {
@@ -1152,7 +1152,7 @@
           "event": []
         },
         {
-          "id": "36e8e8ce-7b6b-4730-a8ee-c85bbf6bc89c",
+          "id": "d1e53cd0-806c-49e5-bf20-f1e1c9ba8489",
           "name": "Delete Role (admin/root/soft)",
           "request": {
             "url": {
@@ -1199,7 +1199,7 @@
           "event": []
         },
         {
-          "id": "fb12a13f-04cc-46f4-aae5-cd0de5b71e8e",
+          "id": "ec1fd83c-493a-45dd-82e1-bdd530476afb",
           "name": "Hard Delete Role (root)",
           "request": {
             "url": {
@@ -1250,11 +1250,11 @@
       "event": []
     },
     {
-      "id": "48f97656-41f1-4333-a213-8723df2931c1",
+      "id": "0121dd83-200e-465f-a501-e8725925abae",
       "name": "User-Role (usuarios)",
       "item": [
         {
-          "id": "740b6249-c5db-4348-9a65-91505ad26551",
+          "id": "732a2952-1f2e-4ef0-bbc2-bae2523c992c",
           "name": "Assign Role (admin/root)",
           "request": {
             "url": {
@@ -1313,7 +1313,7 @@
           "event": []
         },
         {
-          "id": "68702149-2161-4c26-b37c-f79001404d41",
+          "id": "f09cfc0d-6039-4eee-8846-d39274d89cd1",
           "name": "Remove Role (admin/root/soft)",
           "request": {
             "url": {
@@ -1361,7 +1361,7 @@
           "event": []
         },
         {
-          "id": "90b14e23-9007-4fbf-9541-99549aa9d0d2",
+          "id": "4e6a6739-5c06-4fc7-968d-77e42a5b1dbf",
           "name": "Hard Remove Role (root)",
           "request": {
             "url": {
@@ -1410,7 +1410,7 @@
           "event": []
         },
         {
-          "id": "b650eae7-adad-4f33-bf6c-42330c110ecf",
+          "id": "f3e2496a-f4d7-4510-89aa-69cf8817e226",
           "name": "Get Roles By User (admin/root)",
           "request": {
             "url": {
@@ -1458,7 +1458,7 @@
           "event": []
         },
         {
-          "id": "fbea29cd-5acc-49ad-9bf3-bd6b9b45760b",
+          "id": "787d51b5-b147-41fa-b0f5-b1a34453810b",
           "name": "Get Users By Role (admin/root)",
           "request": {
             "url": {
@@ -1509,11 +1509,11 @@
       "event": []
     },
     {
-      "id": "26a19c8d-6f77-4ff8-9c75-8a5964a0f72a",
+      "id": "d9c625a0-fd04-4ae3-892c-24c0d4f90d60",
       "name": "Vehiculos (vehiculos)",
       "item": [
         {
-          "id": "90a4d6ae-3fe0-4d06-a71f-31aeeeb6672d",
+          "id": "1246034d-636f-455f-af7b-369a0d2d23b7",
           "name": "Create Vehiculo (admin)",
           "request": {
             "url": {
@@ -1582,7 +1582,7 @@
           ]
         },
         {
-          "id": "aec24102-21d5-4c84-9d18-1d8e8d9e7548",
+          "id": "0ac34b4a-790f-4ddb-a5c5-96aa2640c047",
           "name": "Get All Vehiculos (auth)",
           "request": {
             "url": {
@@ -1628,7 +1628,7 @@
           "event": []
         },
         {
-          "id": "f25ddffa-bf74-4d4c-b63f-b15ed6553e5c",
+          "id": "c11bd52f-4857-439b-84b5-b34a8b079838",
           "name": "Get Vehiculo By ID (auth)",
           "request": {
             "url": {
@@ -1675,7 +1675,7 @@
           "event": []
         },
         {
-          "id": "5c1707f0-ca43-42ec-b8ed-c8891201427b",
+          "id": "b21614f5-00ed-4918-8376-bfe4d2d42a98",
           "name": "Update Vehiculo (admin)",
           "request": {
             "url": {
@@ -1735,7 +1735,7 @@
           "event": []
         },
         {
-          "id": "491c0607-544c-40e8-9e7c-4fb6ca7f448c",
+          "id": "74cb8eea-1a6b-4991-9157-65aac5c5ec9f",
           "name": "Delete Vehiculo (admin/root)",
           "request": {
             "url": {
@@ -1785,11 +1785,11 @@
       "event": []
     },
     {
-      "id": "bd87c5c7-0184-4d8e-b52c-8bcb71b457ea",
+      "id": "9acc0127-bf74-4160-9a2f-0ef9180853ef",
       "name": "Asignaciones (reservas)",
       "item": [
         {
-          "id": "cd392605-acc0-40f8-accc-7906051d162b",
+          "id": "087db2e2-cab7-45b0-a1d7-6a738f3e9925",
           "name": "Create Asignacion (admin)",
           "request": {
             "url": {
@@ -1848,7 +1848,7 @@
           "event": []
         },
         {
-          "id": "47edc780-5d13-48ce-9507-54d776d12d4f",
+          "id": "16e09a69-d33c-432d-a973-93adb25d41c5",
           "name": "Get All Asignaciones (admin)",
           "request": {
             "url": {
@@ -1894,7 +1894,7 @@
           "event": []
         },
         {
-          "id": "f42e7aa7-deb8-46d5-af53-92e1c1a225a1",
+          "id": "7c336e0c-624a-41fb-9947-19ac41e43081",
           "name": "Get Flota By Propietario",
           "request": {
             "url": {
@@ -1942,7 +1942,7 @@
           "event": []
         },
         {
-          "id": "98314d1b-bc8f-40a6-830d-2b4920f11dcd",
+          "id": "51f2c475-05af-4a18-be1a-16725bb1ffae",
           "name": "Get Asignacion By ID",
           "request": {
             "url": {
@@ -1990,7 +1990,7 @@
           "event": []
         },
         {
-          "id": "d2d40cb6-dcce-4ebe-91b5-4d8d1d1edaea",
+          "id": "85f2d527-9f8a-4185-b920-cd3ad8c046bb",
           "name": "Delete Asignacion (admin/root)",
           "request": {
             "url": {
@@ -2041,11 +2041,11 @@
       "event": []
     },
     {
-      "id": "9c81bed5-45d3-4302-9753-c6f3b0c3865c",
+      "id": "3d93a34b-0a04-480a-aace-67a393c90653",
       "name": "Trazabilidad (reservas)",
       "item": [
         {
-          "id": "cb134b97-41a2-4cb2-aef0-f700d0388e5a",
+          "id": "da45c258-ef12-4b0e-a839-2349c8fa2e20",
           "name": "Get All Trazabilidad (admin)",
           "request": {
             "url": {
@@ -2091,7 +2091,7 @@
           "event": []
         },
         {
-          "id": "057973e9-7816-40a2-8990-23e6d8f08991",
+          "id": "12f9d7bc-be1e-455a-854b-12a729cba4b5",
           "name": "Get Trazabilidad By Asignacion",
           "request": {
             "url": {
@@ -2143,11 +2143,11 @@
       "event": []
     },
     {
-      "id": "3484dbba-8cd5-4529-a1f2-b2b152907cdb",
+      "id": "ad2ac2c6-0356-4cbb-a160-8bd76702c92a",
       "name": "Zonas (zonas)",
       "item": [
         {
-          "id": "f0b2888a-6389-48ce-acde-6305ca0b28fd",
+          "id": "f1e4b57d-6a13-4f22-9f8a-d557fa5c59bc",
           "name": "Get All Zonas (auth)",
           "request": {
             "url": {
@@ -2193,7 +2193,7 @@
           "event": []
         },
         {
-          "id": "52ac00c8-5983-479f-a68b-ed9a975f6130",
+          "id": "59ae61e2-55fe-4ed0-ae4c-12b58550eae7",
           "name": "Create Zona (admin)",
           "request": {
             "url": {
@@ -2262,7 +2262,7 @@
           ]
         },
         {
-          "id": "beef276c-7dea-4b74-9290-9fbeb0f0d8f4",
+          "id": "40c14543-7bd2-45dc-938a-f1cf872461a9",
           "name": "Update Zona (admin)",
           "request": {
             "url": {
@@ -2322,7 +2322,7 @@
           "event": []
         },
         {
-          "id": "378127cc-d74a-49c3-8f93-e63fde12710f",
+          "id": "6e9114c5-09b3-4634-8c7b-fbc7ea4b0baa",
           "name": "Toggle Zona Estado (admin)",
           "request": {
             "url": {
@@ -2376,7 +2376,7 @@
           "event": []
         },
         {
-          "id": "15e256af-670b-4712-ad25-78eec9307f94",
+          "id": "c30a9e40-cc16-4aae-8a30-1caf16f05cc4",
           "name": "Delete Zona (admin/root)",
           "request": {
             "url": {
@@ -2426,11 +2426,11 @@
       "event": []
     },
     {
-      "id": "8ca23bc6-c303-4664-b5f2-4c601fb890b9",
+      "id": "5ce5e96e-64a8-434c-9cd2-b5e78f1f6908",
       "name": "Espacios (zonas)",
       "item": [
         {
-          "id": "c221b32b-6e46-4af5-bf71-e1b99cfb0782",
+          "id": "a0531279-fd61-4f8a-8734-d6d7fcbd0c9c",
           "name": "Get All Espacios (auth)",
           "request": {
             "url": {
@@ -2476,7 +2476,7 @@
           "event": []
         },
         {
-          "id": "043b7efd-9a9b-4f3f-96da-d1f8ea2197c2",
+          "id": "2e075e9e-384c-44f8-8eee-105ffe257bc1",
           "name": "Create Espacio (admin)",
           "request": {
             "url": {
@@ -2545,7 +2545,7 @@
           ]
         },
         {
-          "id": "8857c0ee-e970-491e-a5b0-7854807d726c",
+          "id": "757a6507-a50c-4a51-904b-3298e6b8b524",
           "name": "Update Espacio (admin)",
           "request": {
             "url": {
@@ -2605,7 +2605,7 @@
           "event": []
         },
         {
-          "id": "b63b1293-8666-4254-9dd8-5dac1f5367f2",
+          "id": "4eb36ae9-9a59-4f14-b80b-515335deac71",
           "name": "Delete Espacio (admin/root)",
           "request": {
             "url": {
@@ -2652,7 +2652,7 @@
           "event": []
         },
         {
-          "id": "3893acd7-b3cb-45bd-8c7e-7f073ac7c847",
+          "id": "092d0d75-98e2-425f-a0f7-65bc96ed2441",
           "name": "Cambiar Estado Espacio (admin)",
           "request": {
             "url": {
@@ -2716,7 +2716,7 @@
           "event": []
         },
         {
-          "id": "c559e141-7df5-4337-a36a-9861e89be96f",
+          "id": "5b12a0a0-9cd7-4f8f-ac5f-8a89ee9c7df5",
           "name": "Get Espacios By Estado (auth)",
           "request": {
             "url": {
@@ -2764,7 +2764,7 @@
           "event": []
         },
         {
-          "id": "1ee9a1ca-06e9-424b-9b2a-b260fff479bb",
+          "id": "b651c3e7-7bd2-4b28-b9db-e19918da84f6",
           "name": "Get Espacios By Zona y Estado (auth)",
           "request": {
             "url": {
@@ -2817,11 +2817,11 @@
       "event": []
     },
     {
-      "id": "5421bbdf-8d8a-45f4-b59b-1fdc0ff01c04",
+      "id": "44177481-8080-4f77-8490-d0aacd0118f5",
       "name": "Tickets (tickets)",
       "item": [
         {
-          "id": "6d6987c6-d4eb-4ce1-bdfc-f7163a773d7c",
+          "id": "1966cc59-d14b-42d4-b185-5e1eead8d6b4",
           "name": "Create Ticket (recaudador/admin)",
           "request": {
             "url": {
@@ -2873,7 +2873,7 @@
             "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"idEspacio\": \"{{espacioId}}\",\n  \"idUsuario\": \"{{userId}}\",\n  \"idVehiculo\": \"{{vehicleId}}\",\n  \"ccPlaca\": \"1234567890-ABC1234\",\n  \"fechaHoraIngreso\": \"2026-07-06T10:00:00Z\",\n  \"idEmpleado\": \"{{userId}}\"\n}"
+              "raw": "{\n  \"idEspacio\": \"{{espacioId}}\",\n  \"idUsuario\": \"{{userId}}\",\n  \"idVehiculo\": \"{{vehicleId}}\",\n  \"tipoVehiculo\": \"auto\",\n  \"ccPlaca\": \"1234567890-ABC1234\",\n  \"fechaHoraIngreso\": \"2026-07-06T10:00:00Z\",\n  \"idEmpleado\": \"{{userId}}\"\n}"
             }
           },
           "response": [],
@@ -2890,7 +2890,7 @@
           ]
         },
         {
-          "id": "180803a2-739e-471f-8813-a35edee2cd8d",
+          "id": "f7ef3569-cea7-4478-9c14-2d530fbc1c72",
           "name": "Get All Tickets (admin/recaudador)",
           "request": {
             "url": {
@@ -2936,7 +2936,7 @@
           "event": []
         },
         {
-          "id": "c198ca1e-5f04-41e2-b484-36b74253625d",
+          "id": "d7cb2ec4-97da-49a8-80ac-be753263be1e",
           "name": "Get Ticket By ID (propio o admin/recaudador)",
           "request": {
             "url": {
@@ -2983,7 +2983,115 @@
           "event": []
         },
         {
-          "id": "bbcdfebc-fcd8-41c1-b76c-98a366b8acf5",
+          "id": "3a3685ea-6a1c-4424-bae2-add35c48392e",
+          "name": "Cobrar Ticket (recaudador/admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "cobrar"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "15784f09-3112-4252-a19b-ff52dfc3ddd2",
+          "name": "Anular Ticket (recaudador/admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "anular"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "2f611eae-d16b-4502-a73f-bc724cba7e14",
           "name": "Update Ticket (recaudador/admin)",
           "request": {
             "url": {
@@ -3043,7 +3151,7 @@
           "event": []
         },
         {
-          "id": "12ed8765-f841-4d7f-b320-0f36478bba5d",
+          "id": "e1c4e9ab-6089-4b89-97a7-766c3388cfdf",
           "name": "Delete Ticket (admin/root)",
           "request": {
             "url": {
@@ -3147,7 +3255,7 @@
     }
   ],
   "info": {
-    "_postman_id": "9fdf91a5-b4a4-4467-b8c2-b663949b662d",
+    "_postman_id": "6c17c947-50bd-4886-ab7a-63845c2b43fa",
     "name": "Parqueadero API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   }

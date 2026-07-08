@@ -10,6 +10,7 @@ import {
   UseGuards,
   Req,
   ForbiddenException,
+  Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import type { Request } from 'express';
@@ -79,6 +80,33 @@ export class TicketsController {
     @Body() updateTicketDto: UpdateTicketDto,
   ): Promise<Ticket> {
     return this.ticketsService.update(id, updateTicketDto);
+  }
+
+  @Post(':id/cobrar')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('recaudador', 'admin')
+  @ApiOperation({ summary: 'Cobrar ticket: calcula valor según horas y tarifa, marca como pagado (recaudador/admin)' })
+  @ApiResponse({ status: 200, description: 'Ticket cobrado exitosamente' })
+  @ApiResponse({ status: 400, description: 'El ticket no está activo o fecha inválida' })
+  @ApiResponse({ status: 404, description: 'Ticket no encontrado' })
+  async cobrar(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query('fechaHoraSalida') fechaHoraSalida?: string,
+  ): Promise<Ticket> {
+    return this.ticketsService.cobrar(id, fechaHoraSalida || undefined);
+  }
+
+  @Post(':id/anular')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('recaudador', 'admin')
+  @ApiOperation({ summary: 'Anular ticket (recaudador/admin)' })
+  @ApiResponse({ status: 200, description: 'Ticket anulado exitosamente' })
+  @ApiResponse({ status: 400, description: 'El ticket no está activo' })
+  @ApiResponse({ status: 404, description: 'Ticket no encontrado' })
+  async anular(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<Ticket> {
+    return this.ticketsService.anular(id);
   }
 
   @Delete(':id')

@@ -13,6 +13,14 @@ export enum EstadoTicket {
   ANULADO = 'anulado',
 }
 
+export enum TipoVehiculo {
+  AUTO = 'auto',
+  MOTO = 'moto',
+  CAMIONETA = 'camioneta',
+  BUS = 'bus',
+  BICICLETA = 'bicicleta',
+}
+
 @Entity('tickets')
 export class Ticket {
   @ApiProperty({ description: 'ID único del ticket' })
@@ -30,6 +38,14 @@ export class Ticket {
   @ApiProperty({ description: 'ID del vehículo' })
   @Column({ name: 'id_vehiculo', type: 'varchar', length: 20 })
   idVehiculo: string;
+
+  @ApiProperty({ description: 'Tipo de vehículo', enum: TipoVehiculo })
+  @Column({
+    name: 'tipo_vehiculo',
+    type: 'enum',
+    enum: TipoVehiculo,
+  })
+  tipoVehiculo: TipoVehiculo;
 
   @ApiProperty({
     description: 'Cédula y/o placa del vehículo',
