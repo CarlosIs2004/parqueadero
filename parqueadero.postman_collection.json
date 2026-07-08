@@ -1,0 +1,3154 @@
+{
+  "item": [
+    {
+      "id": "dba8d4dd-00f8-40e6-b0bd-bbb1ec686459",
+      "name": "Auth (usuarios)",
+      "item": [
+        {
+          "id": "8c8063f6-63f7-42ce-8e2e-c138dc388217",
+          "name": "Login",
+          "request": {
+            "url": {
+              "path": [
+                "auth",
+                "login"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123admin\"\n}"
+            }
+          },
+          "response": [],
+          "events": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code===201){var json=pm.response.json();pm.collectionVariables.set(\"token\",json.access_token);pm.collectionVariables.set(\"refresh_token\",json.refresh_token);}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "id": "e2c252ef-1b56-4804-81a6-bd2297ce5ec0",
+          "name": "Register",
+          "request": {
+            "url": {
+              "path": [
+                "auth",
+                "register"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Juan\",\n  \"lastName\": \"Perez\",\n  \"middleName\": \"\",\n  \"dni\": \"1234567890\",\n  \"email\": \"juan@test.com\",\n  \"phone\": \"0999000001\",\n  \"nationality\": \"ecuatoriana\",\n  \"address\": \"Quito\",\n  \"username\": \"juanperez\",\n  \"password\": \"clientepass1\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "10e47eb0-1088-4400-851e-169f663f344a",
+          "name": "Refresh Token",
+          "request": {
+            "url": {
+              "path": [
+                "auth",
+                "refresh"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b3b7bab7-f9f5-495f-95df-7662cd02e7ae",
+      "name": "Persons (usuarios)",
+      "item": [
+        {
+          "id": "1ac5b661-d0f1-4345-90f6-ab6192436145",
+          "name": "Create Person (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "persons"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Maria\",\n  \"lastName\": \"Lopez\",\n  \"middleName\": \"\",\n  \"dni\": \"0987654321\",\n  \"email\": \"maria@test.com\",\n  \"phone\": \"0999000002\",\n  \"nationality\": \"ecuatoriana\",\n  \"address\": \"Quito\",\n  \"username\": \"marialopez\",\n  \"password\": \"adminpass1234\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "342e9755-e524-42df-ba2a-c33003c82938",
+          "name": "Get My Profile (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "persons",
+                "me"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "events": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code===200){var json=pm.response.json();pm.collectionVariables.set(\"personId\",json.id);pm.collectionVariables.set(\"userId\",json.id);}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "id": "bdb1f3f1-6f9c-4079-89ed-cfce1462e6a3",
+          "name": "Update My Profile (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "persons",
+                "me"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"0999000099\",\n  \"address\": \"Nueva Direccion\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "37fbaa5b-ec8d-4438-9636-1fd7e362aeb7",
+          "name": "Get All Persons (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "persons"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d14fc0a6-8ac4-47fc-928e-00f56cf4bd87",
+          "name": "Get Person By ID (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "persons",
+                "{{personId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "fb0d3fc9-d0ea-45dc-8083-6da637ac3725",
+          "name": "Update Person (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "persons",
+                "{{personId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"0999000099\",\n  \"address\": \"Direccion actualizada\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "bc51fd71-0fa1-4f4f-b8a7-9586d3cb3be8",
+          "name": "Delete Person (admin/soft)",
+          "request": {
+            "url": {
+              "path": [
+                "persons",
+                "{{personId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "b857925c-db16-4f4a-bb27-810af81e8969",
+          "name": "Hard Delete Person (root)",
+          "request": {
+            "url": {
+              "path": [
+                "persons",
+                "{{personId}}",
+                "hard"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9199cf05-9e38-4d79-9daf-8b5066832504",
+      "name": "Users (usuarios)",
+      "item": [
+        {
+          "id": "848aef99-8b48-4889-bb6a-39451d7f3256",
+          "name": "Create User (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "usuarios"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idPerson\": \"{{personId}}\",\n  \"username\": \"nuevousuario\",\n  \"password\": \"password12345\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "94d6d18f-4ee5-4506-8467-a185be9219be",
+          "name": "Get All Users (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "usuarios"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "850c4a5d-adb6-4aeb-bdeb-daf6bf879450",
+          "name": "Get User By ID (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "usuarios",
+                "{{userId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a0d38e5f-ba96-4f0c-af4e-0e6e762b4a80",
+          "name": "Update User (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "usuarios",
+                "{{userId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"usuarioactualizado\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "bb4d63f1-a967-4efe-b9b0-c5741ba28836",
+          "name": "Delete User (admin/soft)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "usuarios",
+                "{{userId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "2a19f793-b4da-47c9-80ea-4edf5163b3a3",
+          "name": "Hard Delete User (root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "usuarios",
+                "{{userId}}",
+                "hard"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "31a7f6a2-4fbf-4767-a0a8-877432cd4e01",
+      "name": "Roles (usuarios)",
+      "item": [
+        {
+          "id": "49747cc6-4916-4360-b6b0-e3b4324d1895",
+          "name": "Create Role (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "roles"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"nuevo_rol\",\n  \"description\": \"Rol de prueba\"\n}"
+            }
+          },
+          "response": [],
+          "events": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code===201){var json=pm.response.json();pm.collectionVariables.set(\"roleId\",json.id);}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "id": "811eed66-6957-4e64-886c-565a3c29c8f4",
+          "name": "Get All Roles (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "roles"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "35ced659-a251-4fa6-95b3-0a5bb679838c",
+          "name": "Get Role By ID (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "roles",
+                "{{roleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f1358566-db22-4cc4-abcf-1986828ceb32",
+          "name": "Update Role (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "roles",
+                "{{roleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Rol actualizado\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "36e8e8ce-7b6b-4730-a8ee-c85bbf6bc89c",
+          "name": "Delete Role (admin/root/soft)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "roles",
+                "{{roleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "fb12a13f-04cc-46f4-aae5-cd0de5b71e8e",
+          "name": "Hard Delete Role (root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "roles",
+                "{{roleId}}",
+                "hard"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "48f97656-41f1-4333-a213-8723df2931c1",
+      "name": "User-Role (usuarios)",
+      "item": [
+        {
+          "id": "740b6249-c5db-4348-9a65-91505ad26551",
+          "name": "Assign Role (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "user-role"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idUser\": \"{{userId}}\",\n  \"idRole\": \"{{roleId}}\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "68702149-2161-4c26-b37c-f79001404d41",
+          "name": "Remove Role (admin/root/soft)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "user-role",
+                "{{userId}}",
+                "{{roleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "90b14e23-9007-4fbf-9541-99549aa9d0d2",
+          "name": "Hard Remove Role (root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "user-role",
+                "{{userId}}",
+                "{{roleId}}",
+                "hard"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "b650eae7-adad-4f33-bf6c-42330c110ecf",
+          "name": "Get Roles By User (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "user-role",
+                "user",
+                "{{userId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "fbea29cd-5acc-49ad-9bf3-bd6b9b45760b",
+          "name": "Get Users By Role (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "user-role",
+                "role",
+                "{{roleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "26a19c8d-6f77-4ff8-9c75-8a5964a0f72a",
+      "name": "Vehiculos (vehiculos)",
+      "item": [
+        {
+          "id": "90a4d6ae-3fe0-4d06-a71f-31aeeeb6672d",
+          "name": "Create Vehiculo (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "vehiculos"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"auto\",\n  \"datos\": {\n    \"placa\": \"ABC-1234\",\n    \"marca\": \"Toyota\",\n    \"modelo\": \"Corolla\",\n    \"color\": \"Rojo\",\n    \"anio\": 2024,\n    \"clasificacion\": \"Gasolina\",\n    \"numeroPuertas\": 4,\n    \"capacidadMaletero\": 470\n  }\n}"
+            }
+          },
+          "response": [],
+          "events": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code===201){var json=pm.response.json();pm.collectionVariables.set(\"vehicleId\",json.id||json._id);}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "id": "aec24102-21d5-4c84-9d18-1d8e8d9e7548",
+          "name": "Get All Vehiculos (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "vehiculos"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f25ddffa-bf74-4d4c-b63f-b15ed6553e5c",
+          "name": "Get Vehiculo By ID (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "vehiculos",
+                "{{vehicleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "5c1707f0-ca43-42ec-b8ed-c8891201427b",
+          "name": "Update Vehiculo (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "vehiculos",
+                "{{vehicleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"color\": \"Azul\",\n  \"marca\": \"Toyota\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "491c0607-544c-40e8-9e7c-4fb6ca7f448c",
+          "name": "Delete Vehiculo (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "vehiculos",
+                "{{vehicleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "bd87c5c7-0184-4d8e-b52c-8bcb71b457ea",
+      "name": "Asignaciones (reservas)",
+      "item": [
+        {
+          "id": "cd392605-acc0-40f8-accc-7906051d162b",
+          "name": "Create Asignacion (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "asignaciones"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"vehicleId\": \"{{vehicleId}}\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "47edc780-5d13-48ce-9507-54d776d12d4f",
+          "name": "Get All Asignaciones (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "asignaciones"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f42e7aa7-deb8-46d5-af53-92e1c1a225a1",
+          "name": "Get Flota By Propietario",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "asignaciones",
+                "propietario",
+                "{{userId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "98314d1b-bc8f-40a6-830d-2b4920f11dcd",
+          "name": "Get Asignacion By ID",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "asignaciones",
+                "{{userId}}",
+                "{{vehicleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d2d40cb6-dcce-4ebe-91b5-4d8d1d1edaea",
+          "name": "Delete Asignacion (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "asignaciones",
+                "{{userId}}",
+                "{{vehicleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9c81bed5-45d3-4302-9753-c6f3b0c3865c",
+      "name": "Trazabilidad (reservas)",
+      "item": [
+        {
+          "id": "cb134b97-41a2-4cb2-aef0-f700d0388e5a",
+          "name": "Get All Trazabilidad (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "trazabilidad"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "057973e9-7816-40a2-8990-23e6d8f08991",
+          "name": "Get Trazabilidad By Asignacion",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "trazabilidad",
+                "asignacion",
+                "{{userId}}",
+                "{{vehicleId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "3484dbba-8cd5-4529-a1f2-b2b152907cdb",
+      "name": "Zonas (zonas)",
+      "item": [
+        {
+          "id": "f0b2888a-6389-48ce-acde-6305ca0b28fd",
+          "name": "Get All Zonas (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "zonas"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "52ac00c8-5983-479f-a68b-ed9a975f6130",
+          "name": "Create Zona (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "zonas"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Parqueadero Norte\",\n  \"descripcion\": \"Zona para vehiculos livianos\",\n  \"tipo\": \"REGULAR\",\n  \"capacidad\": 50\n}"
+            }
+          },
+          "response": [],
+          "events": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code===201){var json=pm.response.json();pm.collectionVariables.set(\"zonaId\",json.idZona);}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "id": "beef276c-7dea-4b74-9290-9fbeb0f0d8f4",
+          "name": "Update Zona (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "zonas",
+                "{{zonaId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Parqueadero Norte Actualizado\",\n  \"descripcion\": \"Zona actualizada\",\n  \"tipo\": \"VIP\",\n  \"capacidad\": 30\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "378127cc-d74a-49c3-8f93-e63fde12710f",
+          "name": "Toggle Zona Estado (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "zonas",
+                "{{zonaId}}",
+                "estado"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "15e256af-670b-4712-ad25-78eec9307f94",
+          "name": "Delete Zona (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "zonas",
+                "{{zonaId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "8ca23bc6-c303-4664-b5f2-4c601fb890b9",
+      "name": "Espacios (zonas)",
+      "item": [
+        {
+          "id": "c221b32b-6e46-4af5-bf71-e1b99cfb0782",
+          "name": "Get All Espacios (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "espacios"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "043b7efd-9a9b-4f3f-96da-d1f8ea2197c2",
+          "name": "Create Espacio (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "espacios"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"ESP-001\",\n  \"idZona\": \"{{zonaId}}\",\n  \"descripcion\": \"Espacio cercano al ascensor\",\n  \"tipo\": \"AUTO\",\n  \"estado\": \"DISPONIBLE\"\n}"
+            }
+          },
+          "response": [],
+          "events": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code===201){var json=pm.response.json();pm.collectionVariables.set(\"espacioId\",json.id);}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "id": "8857c0ee-e970-491e-a5b0-7854807d726c",
+          "name": "Update Espacio (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "espacios",
+                "{{espacioId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"ESP-001\",\n  \"idZona\": \"{{zonaId}}\",\n  \"descripcion\": \"Espacio actualizado\",\n  \"tipo\": \"AUTO\",\n  \"estado\": \"DISPONIBLE\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "b63b1293-8666-4254-9dd8-5dac1f5367f2",
+          "name": "Delete Espacio (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "espacios",
+                "{{espacioId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "3893acd7-b3cb-45bd-8c7e-7f073ac7c847",
+          "name": "Cambiar Estado Espacio (admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "espacios",
+                "{{espacioId}}",
+                "estado"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": [
+                    {
+                      "key": "estado",
+                      "value": "OCUPADO"
+                    }
+                  ]
+                },
+                {
+                  "key": "reference",
+                  "value": {
+                    "estado": {
+                      "key": "estado",
+                      "value": "OCUPADO"
+                    }
+                  }
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "c559e141-7df5-4337-a36a-9861e89be96f",
+          "name": "Get Espacios By Estado (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "espacios",
+                "estado",
+                "DISPONIBLE"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "1ee9a1ca-06e9-424b-9b2a-b260fff479bb",
+          "name": "Get Espacios By Zona y Estado (auth)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "espacios",
+                "zona",
+                "{{zonaId}}",
+                "estado",
+                "DISPONIBLE"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "5421bbdf-8d8a-45f4-b59b-1fdc0ff01c04",
+      "name": "Tickets (tickets)",
+      "item": [
+        {
+          "id": "6d6987c6-d4eb-4ce1-bdfc-f7163a773d7c",
+          "name": "Create Ticket (recaudador/admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "tickets"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idEspacio\": \"{{espacioId}}\",\n  \"idUsuario\": \"{{userId}}\",\n  \"idVehiculo\": \"{{vehicleId}}\",\n  \"ccPlaca\": \"1234567890-ABC1234\",\n  \"fechaHoraIngreso\": \"2026-07-06T10:00:00Z\",\n  \"idEmpleado\": \"{{userId}}\"\n}"
+            }
+          },
+          "response": [],
+          "events": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(pm.response.code===201){var json=pm.response.json();pm.collectionVariables.set(\"ticketId\",json.idTicket||json.id);}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "id": "180803a2-739e-471f-8813-a35edee2cd8d",
+          "name": "Get All Tickets (admin/recaudador)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "tickets"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "c198ca1e-5f04-41e2-b484-36b74253625d",
+          "name": "Get Ticket By ID (propio o admin/recaudador)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "bbcdfebc-fcd8-41c1-b76c-98a366b8acf5",
+          "name": "Update Ticket (recaudador/admin)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estadoTicket\": \"pagado\",\n  \"valorRecaudado\": 5.5,\n  \"fechaHoraSalida\": \"2026-07-06T12:00:00Z\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "12ed8765-f841-4d7f-b320-0f36478bba5d",
+          "name": "Delete Ticket (admin/root)",
+          "request": {
+            "url": {
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "members",
+                  "value": []
+                },
+                {
+                  "key": "reference",
+                  "value": {}
+                },
+                {
+                  "key": "Type",
+                  "value": {
+                    "_postman_propertyName": "QueryParam",
+                    "_postman_propertyIndexKey": "key",
+                    "_postman_propertyAllowsMultipleValues": true
+                  }
+                },
+                {
+                  "key": "_postman_listIndexKey",
+                  "value": "key"
+                },
+                {
+                  "key": "_postman_listAllowsMultipleValues",
+                  "value": true
+                }
+              ],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "any",
+      "value": "http://localhost:8000",
+      "key": "base_url"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "token"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "refresh_token"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "userId"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "vehicleId"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "roleId"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "zonaId"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "espacioId"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "personId"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "ticketId"
+    }
+  ],
+  "info": {
+    "_postman_id": "9fdf91a5-b4a4-4467-b8c2-b663949b662d",
+    "name": "Parqueadero API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  }
+}

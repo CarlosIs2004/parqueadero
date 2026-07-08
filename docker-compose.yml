@@ -113,6 +113,7 @@ services:
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: tickets_db
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       - db_postgres
     networks:
