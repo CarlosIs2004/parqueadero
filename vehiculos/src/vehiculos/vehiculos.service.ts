@@ -5,9 +5,11 @@ import { Vehiculo } from './entities/vehiculo.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FactoryVehiculos } from './factory/factory.vehiculo';
+import { AuditEvent } from './event-publisher.service';
 
 @Injectable()
 export class VehiculosService {
+  eventPublisher: any;
 
   constructor(
     @InjectRepository(Vehiculo)
@@ -24,7 +26,12 @@ export class VehiculosService {
       throw new ConflictException("Ya existe un vehículo con esa placa")
     }
     const vehiculo = FactoryVehiculos.crear(createVehiculoDto);
+
+    const saved = await this.repositoryVehiculos.save(vehiculo);
+    
+    await this.emitEvent('create', saved, { tipo: createVehiculoDto.tipo });
     return this.repositoryVehiculos.save(vehiculo);
+    
   }
 
   async findAll(tipo?: string): Promise<Vehiculo[]> {
@@ -69,5 +76,21 @@ export class VehiculosService {
   async remove(id: string): Promise<void> {
     const vehiculo = await this.findOne(id);
     await this.repositoryVehiculos.remove(vehiculo);
+  }
+
+  // Método auxiliar para publicar eventos
+  private async emitEvent(
+    accion: string,
+    vehiculo: Vehiculo,
+    datosExtra?: any,
+  ) {
+    const event: AuditEvent = {
+      servicio: 'vehiculos',
+      accion,
+      entidad: 'Vehiculo',
+      datos: { ...vehiculo, ...datosExtra },
+      // usuario e ip se podrían obtener del contexto (request) si se inyecta
+    };
+    await this.eventPublisher.publish(event);
   }
 }

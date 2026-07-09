@@ -26,6 +26,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private static final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 
+
     private final String jwtSecret;
 
     public JwtAuthFilter(String jwtSecret) {
@@ -77,7 +78,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            } catch (JwtException e) {
+        } catch (JwtException e) {
             log.warn("JWT inválido: {}", e.getMessage());
             SecurityContextHolder.clearContext();
         } catch (Exception e) {

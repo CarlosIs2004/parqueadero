@@ -113,6 +113,7 @@ services:
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: tickets_db
+      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
       VEHICULOS_API_URL: http://kong:8000/api/vehiculos
       USUARIOS_API_URL: http://kong:8000/api/usuarios
       ESPACIOS_API_URL: http://kong:8000/api/espacios

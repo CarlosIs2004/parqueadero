@@ -8,7 +8,7 @@ import {
   IsNumber,
   Min,
 } from 'class-validator';
-import { EstadoTicket } from '../entities/ticket.entity';
+import { EstadoTicket, TipoVehiculo } from '../entities/ticket.entity';
 
 export class CreateTicketDto {
   @ApiProperty({ description: 'ID del espacio asignado' })
@@ -25,6 +25,12 @@ export class CreateTicketDto {
   @IsString()
   @IsNotEmpty()
   idVehiculo: string;
+
+  @ApiProperty({ description: 'Tipo de vehículo', enum: TipoVehiculo })
+  @IsEnum(TipoVehiculo)
+  @IsNotEmpty()
+  tipoVehiculo: TipoVehiculo;
+
 
   @ApiPropertyOptional({ description: 'Cédula y/o placa del vehículo' })
   @IsString()

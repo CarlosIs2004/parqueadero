@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { TicketsModule } from './tickets/tickets.module';
 
 @Module({
@@ -23,6 +24,7 @@ import { TicketsModule } from './tickets/tickets.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
     TicketsModule,
   ],
   controllers: [AppController],
