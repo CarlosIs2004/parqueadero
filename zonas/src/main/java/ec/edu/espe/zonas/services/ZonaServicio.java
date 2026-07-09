@@ -19,4 +19,6 @@ public interface ZonaServicio {
 
     void eliminarZona(UUID idZona);
 
+    ZonaResponseDto obtenerZonaPorId(UUID idZona);
+
 }

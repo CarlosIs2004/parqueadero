@@ -43,6 +43,14 @@ public class EspacioControlador {
         return ResponseEntity.ok(espacioServicio.obtenerEspacios());
     }
 
+    @Operation(summary = "Obtener un espacio por ID")
+    @ApiResponse(responseCode = "200", description = "Espacio encontrado")
+    @ApiResponse(responseCode = "404", description = "Espacio no encontrado")
+    @GetMapping("/{idEspacio}")
+    public ResponseEntity<EspacioResponseDto> obtenerEspacio(@PathVariable UUID idEspacio) {
+        return ResponseEntity.ok(espacioServicio.obtenerEspacioPorId(idEspacio));
+    }
+
     @Operation(summary = "Crear un nuevo espacio")
     @ApiResponse(responseCode = "201", description = "Espacio creado exitosamente")
     @ApiResponse(responseCode = "400", description = "Datos inválidos")

@@ -30,7 +30,7 @@ services:
       DB_USUARIO: ${DB_USER}
       DB_CONTRASENA: ${DB_PASSWORD}
       DB_NOMBRE: ${DB_NAME}
-      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024}
+      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
 
     depends_on:
       - db_postgres
@@ -49,7 +49,7 @@ services:
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: usuarios_db
-      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024}
+      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
     depends_on:
       - db_postgres
     networks:
@@ -65,7 +65,7 @@ services:
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024}
+      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
     depends_on:
       - db_postgres
     networks:
@@ -85,7 +85,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: reservas_db
       VEHICULOS_API_URL: http://kong:8000/api/vehiculos
-      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024}
+      JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
     depends_on:
       - db_postgres
     networks:
@@ -113,6 +113,10 @@ services:
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: tickets_db
+      VEHICULOS_API_URL: http://kong:8000/api/vehiculos
+      USUARIOS_API_URL: http://kong:8000/api/usuarios
+      ESPACIOS_API_URL: http://kong:8000/api/espacios
+      SERVICE_JWT_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlY2YwYzJhZS0yYzg1LTQxYjgtYjE1Ny00NmQ2N2Y0ZGQzMmQiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZXMiOlsiY2xpZW50ZSIsImFkbWluIiwicmVjYXVkYWRvciIsInJvb3QiXSwiaWF0IjoxNzgzMzQ5OTA4LCJleHAiOjE3ODMzNTA4MDh9.KiHitgA_RSk-hAxoH05z6X28Y4Z96dihLyi4hFBXmlY
     depends_on:
       - db_postgres
     networks:

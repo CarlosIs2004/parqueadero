@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { CreateVehiculoDto } from './dto/create-vehiculo.dto';
 import { UpdateVehiculoDto } from './dto/update-vehiculo.dto';
 import { Vehiculo } from './entities/vehiculo.entity';
@@ -21,7 +21,7 @@ export class VehiculosService {
       }
     });
     if(existe){
-      throw new Error( " Ya existe un vehiculo con esa placa")
+      throw new ConflictException("Ya existe un vehículo con esa placa")
     }
     const vehiculo = FactoryVehiculos.crear(createVehiculoDto);
     return this.repositoryVehiculos.save(vehiculo);
@@ -46,7 +46,7 @@ export class VehiculosService {
         id:id,
       }
     });
-    if(!existe)throw new Error('Vehiculo no encontrado')
+    if(!existe)throw new NotFoundException('Vehículo no encontrado')
     return existe;
   }
 
@@ -58,7 +58,7 @@ export class VehiculosService {
         where: { placa: updateVehiculoDto.placa }
       });
       if (existe) {
-        throw new Error(`El vehículo con placa ${updateVehiculoDto.placa} ya existe.`);
+        throw new ConflictException(`El vehículo con placa ${updateVehiculoDto.placa} ya existe.`);
       }
     }
     Object.assign(vehiculo, updateVehiculoDto);

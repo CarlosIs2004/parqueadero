@@ -187,6 +187,16 @@ public class ZonaServicioImpl implements ZonaServicio {
     }
 
 
+    @Override
+    @Transactional(readOnly = true)
+    public ZonaResponseDto obtenerZonaPorId(UUID idZona) {
+        Zona zona = repositorioZona.findById(idZona)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Zona no encontrada con id: " + idZona));
+        return toResponse(zona);
+    }
+
     // Mapper interno
     private ZonaResponseDto toResponse(Zona objZona){
         return ZonaResponseDto.builder()

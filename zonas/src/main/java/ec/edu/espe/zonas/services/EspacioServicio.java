@@ -22,6 +22,7 @@ public interface EspacioServicio {
     List<EspacioResponseDto> obtenerEspaciosPorEstado(EstadoEspacio estado);
 
     List<EspacioResponseDto> obtenerEspaciosPorZonaEstado(UUID idZona, EstadoEspacio estado);
-    
+
+    EspacioResponseDto obtenerEspacioPorId(UUID idEspacio);
     
 }

@@ -45,6 +45,14 @@ public class ZonaControlador {
         return ResponseEntity.ok(zonaServicio.listarZonas());
     }
 
+    @Operation(summary = "Obtener una zona por ID")
+    @ApiResponse(responseCode = "200", description = "Zona encontrada")
+    @ApiResponse(responseCode = "404", description = "Zona no encontrada")
+    @GetMapping("/{idZona}")
+    public ResponseEntity<ZonaResponseDto> obtenerZona(@PathVariable UUID idZona) {
+        return ResponseEntity.ok(zonaServicio.obtenerZonaPorId(idZona));
+    }
+
     @Operation(summary = "Crear una nueva zona")
     @ApiResponse(responseCode = "201", description = "Zona creada exitosamente")
     @ApiResponse(responseCode = "400", description = "Datos inválidos")

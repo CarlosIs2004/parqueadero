@@ -202,5 +202,15 @@ public class EspacioServicioImpl implements EspacioServicio{
                 .map(mappers::toResponseDto)
                 .toList();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EspacioResponseDto obtenerEspacioPorId(UUID idEspacio) {
+        Espacio espacio = repositorioEspacio.findById(idEspacio)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Espacio no encontrado con id: " + idEspacio));
+        return mappers.toResponseDto(espacio);
+    }
     
 }
