@@ -1,6 +1,5 @@
 import {
     IsIP,
-    IsMACAddress,
     IsNotEmpty,
     IsObject,
     IsOptional,
@@ -64,8 +63,7 @@ export class CreateAuditEventDto {
   ip!: string;
 
   @IsOptional()
-  @IsMACAddress({
-    message: 'La dirección MAC debe ser una dirección MAC válida.',
-  })
+  @IsString()
+  @MaxLength(50)
   mac?: string;
 }

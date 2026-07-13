@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Ticket, EstadoTicket } from './entities/ticket.entity';
+import { Ticket, EstadoTicket, TipoVehiculo } from './entities/ticket.entity';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { ValidationService } from '../common/validation/validation.service';
@@ -31,15 +35,26 @@ export class TicketsService {
     }
   }
 
+  private mapTipoVehiculo(tipo: string): TipoVehiculo {
+    const mapping: Record<string, TipoVehiculo> = {
+      Auto: TipoVehiculo.AUTO,
+      Motocicleta: TipoVehiculo.MOTO,
+      Camioneta: TipoVehiculo.CAMIONETA,
+    };
+    return mapping[tipo] ?? TipoVehiculo.AUTO;
+  }
+
   async create(createTicketDto: CreateTicketDto): Promise<Ticket> {
-    await Promise.all([
+    const [vehiculoData] = await Promise.all([
+      this.validationService.fetchVehiculoData(createTicketDto.idVehiculo),
       this.validationService.validateEspacio(createTicketDto.idEspacio),
       this.validationService.validateUsuario(createTicketDto.idUsuario),
-      this.validationService.validateVehiculo(createTicketDto.idVehiculo),
       this.validationService.validateUsuario(createTicketDto.idEmpleado),
     ]);
     const ticket = this.ticketRepository.create({
       ...createTicketDto,
+      tipoVehiculo: this.mapTipoVehiculo(vehiculoData.tipo),
+      ccPlaca: vehiculoData.placa,
       fechaHoraIngreso: new Date(createTicketDto.fechaHoraIngreso),
       fechaHoraSalida: createTicketDto.fechaHoraSalida
         ? new Date(createTicketDto.fechaHoraSalida)
@@ -98,7 +113,6 @@ export class TicketsService {
     await this.ticketRepository.remove(ticket);
   }
 
-
   async cobrar(id: string, fechaHoraSalida?: string): Promise<Ticket> {
     const ticket = await this.findOne(id);
 
@@ -113,11 +127,13 @@ export class TicketsService {
     const diffMs = salida.getTime() - ingreso.getTime();
 
     if (diffMs <= 0) {
-      throw new BadRequestException('La fecha/hora de salida debe ser posterior a la de ingreso');
+      throw new BadRequestException(
+        'La fecha/hora de salida debe ser posterior a la de ingreso',
+      );
     }
 
     const diffHoras = Math.ceil(diffMs / (1000 * 60 * 60));
-    const tarifa = TARIFAS_POR_HORA[ticket.tipoVehiculo] ?? 2.00;
+    const tarifa = TARIFAS_POR_HORA[ticket.tipoVehiculo] ?? 2.0;
     const valor = parseFloat((diffHoras * tarifa).toFixed(2));
 
     ticket.fechaHoraSalida = salida;
