@@ -6,6 +6,7 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { ValidationService } from '../common/validation/validation.service';
 import { TARIFAS_POR_HORA } from './tarifas.constants';
+import { SseService } from '../sse/sse.service';
 
 @Injectable()
 export class TicketsService {
@@ -13,6 +14,7 @@ export class TicketsService {
     @InjectRepository(Ticket)
     private readonly ticketRepository: Repository<Ticket>,
     private readonly validationService: ValidationService,
+    private readonly sseService: SseService,
   ) {}
 
   private validarTransicion(actual: EstadoTicket, nuevo: EstadoTicket): void {
