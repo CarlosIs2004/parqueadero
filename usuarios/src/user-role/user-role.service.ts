@@ -18,7 +18,7 @@ export class UserRoleService implements IUserRoleService {
     private eventPublisher: EventPublisher,
   ) {}
 
-  async assignRole(assignRoleDto: AssignRoleDto, ip?: string, mac?: string): Promise<UserRole> {
+  async assignRole(assignRoleDto: AssignRoleDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<UserRole> {
     const existing = await this.userRoleRepository.findOne({
       where: {
         idUser: assignRoleDto.idUser,
@@ -36,6 +36,8 @@ export class UserRoleService implements IUserRoleService {
         servicio: 'ms-usuarios',
         accion: 'CREATE',
         entidad: 'ROL-USUARIOS',
+        usuario,
+        rol,
         datos: { idUser: assignRoleDto.idUser, idRole: assignRoleDto.idRole },
         ip,
         mac,
@@ -53,6 +55,8 @@ export class UserRoleService implements IUserRoleService {
       servicio: 'ms-usuarios',
       accion: 'CREATE',
       entidad: 'ROL-USUARIOS',
+      usuario,
+      rol,
       datos: { idUser: assignRoleDto.idUser, idRole: assignRoleDto.idRole },
       ip,
       mac,
@@ -60,7 +64,7 @@ export class UserRoleService implements IUserRoleService {
     return saved;
   }
 
-  async removeRole(idUser: string, idRole: string, ip?: string, mac?: string): Promise<void> {
+  async removeRole(idUser: string, idRole: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const userRole = await this.userRoleRepository.findOne({
       where: { idUser, idRole, active: true },
     });
@@ -75,6 +79,8 @@ export class UserRoleService implements IUserRoleService {
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'ROL-USUARIOS',
+      usuario,
+      rol,
       datos: { idUser, idRole },
       ip,
       mac,
@@ -95,7 +101,7 @@ export class UserRoleService implements IUserRoleService {
     });
   }
 
-  async hardDelete(idUser: string, idRole: string, ip?: string, mac?: string): Promise<void> {
+  async hardDelete(idUser: string, idRole: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const userRole = await this.userRoleRepository.findOne({
       where: { idUser, idRole },
     });
@@ -107,6 +113,8 @@ export class UserRoleService implements IUserRoleService {
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'ROL-USUARIOS',
+      usuario,
+      rol,
       datos: { idUser, idRole },
       ip,
       mac,

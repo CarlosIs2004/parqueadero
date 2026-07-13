@@ -27,7 +27,8 @@ export class VehiculosController {
     @Req() req: any,
   ) {
     const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
-    return this.vehiculosService.create(createVehiculoDto, ip, createVehiculoDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.vehiculosService.create(createVehiculoDto, ip, createVehiculoDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Get()
@@ -62,7 +63,8 @@ export class VehiculosController {
     @Req() req: any,
   ) {
     const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
-    return this.vehiculosService.update(id, updateVehiculoDto, ip, updateVehiculoDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.vehiculosService.update(id, updateVehiculoDto, ip, updateVehiculoDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':id')
@@ -77,6 +79,7 @@ export class VehiculosController {
     @Req() req: any,
   ) {
     const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
-    return this.vehiculosService.remove(id, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.vehiculosService.remove(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 }

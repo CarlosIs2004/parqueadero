@@ -44,7 +44,8 @@ export class RolesController {
   })
   create(@Body() createRoleDto: CreateRoleDto, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.rolesService.create(createRoleDto, ip, createRoleDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.rolesService.create(createRoleDto, ip, createRoleDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Get()
@@ -84,7 +85,8 @@ export class RolesController {
     @Req() req: any,
   ) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.rolesService.update(id, updateRoleDto, ip, updateRoleDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.rolesService.update(id, updateRoleDto, ip, updateRoleDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':id')
@@ -93,7 +95,8 @@ export class RolesController {
   @ApiResponse({ status: 404, description: 'Rol no encontrado' })
   remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.rolesService.softDelete(id, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.rolesService.softDelete(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':id/hard')
@@ -103,6 +106,7 @@ export class RolesController {
   @ApiResponse({ status: 404, description: 'Rol no encontrado' })
   hardRemove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.rolesService.hardDelete(id, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.rolesService.hardDelete(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 }

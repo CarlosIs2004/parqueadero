@@ -20,7 +20,7 @@ export class EventoAuditoria {
     @Column({type: 'varchar', length: 15, nullable: true})
     username!: string;
 
-    @Column({type: 'varchar', length: 15, nullable: true})
+    @Column({type: 'varchar', length: 50, nullable: true})
     rol?: string;
 
     @Column({type: 'varchar', length: 15, nullable: true})

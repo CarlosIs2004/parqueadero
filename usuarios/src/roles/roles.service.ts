@@ -18,7 +18,7 @@ export class RolesService implements IRolesService {
     private eventPublisher: EventPublisher,
   ) {}
 
-  async create(createRoleDto: CreateRoleDto, ip?: string, mac?: string): Promise<Role> {
+  async create(createRoleDto: CreateRoleDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Role> {
     const existing = await this.rolesRepository.findOne({
       where: { name: createRoleDto.name },
     });
@@ -33,6 +33,8 @@ export class RolesService implements IRolesService {
       servicio: 'ms-usuarios',
       accion: 'CREATE',
       entidad: 'ROL',
+      usuario,
+      rol,
       datos: { name: createRoleDto.name },
       ip,
       mac,
@@ -52,7 +54,7 @@ export class RolesService implements IRolesService {
     return role;
   }
 
-  async update(id: string, updateData: Partial<Role>, ip?: string, mac?: string): Promise<Role> {
+  async update(id: string, updateData: Partial<Role>, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Role> {
     if (updateData.name) {
       const existing = await this.rolesRepository.findOne({
         where: { name: updateData.name },
@@ -70,6 +72,8 @@ export class RolesService implements IRolesService {
       servicio: 'ms-usuarios',
       accion: 'UPDATE',
       entidad: 'ROL',
+      usuario,
+      rol,
       datos: { name: updateData.name },
       ip,
       mac,
@@ -77,26 +81,30 @@ export class RolesService implements IRolesService {
     return updated;
   }
 
-  async softDelete(id: string, ip?: string, mac?: string): Promise<void> {
+  async softDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const role = await this.findOne(id);
     await this.update(id, { active: false });
     this.eventPublisher.publish({
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'ROL',
+      usuario,
+      rol,
       datos: { name: role.name },
       ip,
       mac,
     });
   }
 
-  async hardDelete(id: string, ip?: string, mac?: string): Promise<void> {
+  async hardDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const role = await this.findOne(id);
     await this.rolesRepository.remove(role);
     this.eventPublisher.publish({
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'ROL',
+      usuario,
+      rol,
       datos: { name: role.name },
       ip,
       mac,

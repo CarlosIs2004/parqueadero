@@ -21,6 +21,7 @@ export class AuditService {
   async create(dto: CreateAuditEventDto): Promise<EventoAuditoria> {
     const mewEvent = this.auditRepo.create({
       ...dto,
+      username: dto.usuario,
       timestamp: new Date(),
     });
 

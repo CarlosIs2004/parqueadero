@@ -37,7 +37,8 @@ export class UserRoleController {
   })
   assignRole(@Body() assignRoleDto: AssignRoleDto, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.userRoleService.assignRole(assignRoleDto, ip, assignRoleDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.userRoleService.assignRole(assignRoleDto, ip, assignRoleDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':idUser/:idRole')
@@ -50,7 +51,8 @@ export class UserRoleController {
     @Req() req: any,
   ) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.userRoleService.removeRole(idUser, idRole, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.userRoleService.removeRole(idUser, idRole, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':idUser/:idRole/hard')
@@ -64,7 +66,8 @@ export class UserRoleController {
     @Req() req: any,
   ) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.userRoleService.hardDelete(idUser, idRole, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.userRoleService.hardDelete(idUser, idRole, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Get('user/:idUser')

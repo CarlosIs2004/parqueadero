@@ -15,7 +15,7 @@ export class VehiculosService {
     private repositoryVehiculos:Repository<Vehiculo>,
     private eventPublisher: EventPublisher
   ){}
-  async create(createVehiculoDto: CreateVehiculoDto, ip?: string, mac?: string): Promise<Vehiculo> {
+  async create(createVehiculoDto: CreateVehiculoDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Vehiculo> {
     const existe = await this.repositoryVehiculos.findOne({
       where:{
         placa:createVehiculoDto.datos.placa
@@ -28,7 +28,7 @@ export class VehiculosService {
 
     const saved = await this.repositoryVehiculos.save(vehiculo);
     
-    await this.emitEvent('CREATE', saved, ip, mac, { tipo: createVehiculoDto.tipo });
+    await this.emitEvent('CREATE', saved, ip, mac, { tipo: createVehiculoDto.tipo }, usuario, rol);
     return saved;
     
   }
@@ -56,7 +56,7 @@ export class VehiculosService {
     return existe;
   }
 
-  async update(id: string, updateVehiculoDto: UpdateVehiculoDto, ip?: string, mac?: string): Promise<Vehiculo> {
+  async update(id: string, updateVehiculoDto: UpdateVehiculoDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Vehiculo> {
     const vehiculo = await this.findOne(id);
 
     if (updateVehiculoDto.placa && updateVehiculoDto.placa !== vehiculo.placa) {
@@ -70,14 +70,14 @@ export class VehiculosService {
     Object.assign(vehiculo, updateVehiculoDto);
 
     const updated = await this.repositoryVehiculos.save(vehiculo);
-    await this.emitEvent('UPDATE', updated, ip, mac);
+    await this.emitEvent('UPDATE', updated, ip, mac, undefined, usuario, rol);
     return updated;
   }
 
-  async remove(id: string, ip?: string, mac?: string): Promise<void> {
+  async remove(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const vehiculo = await this.findOne(id);
     await this.repositoryVehiculos.remove(vehiculo);
-    await this.emitEvent('DELETE', vehiculo, ip, mac);
+    await this.emitEvent('DELETE', vehiculo, ip, mac, undefined, usuario, rol);
   }
 
   // Método auxiliar para publicar eventos
@@ -87,12 +87,16 @@ export class VehiculosService {
     ip?: string,
     mac?: string,
     datosExtra?: any,
+    usuario?: string,
+    rol?: string,
   ) {
     const event: AuditEvent = {
       servicio: 'ms-vehiculos',
       accion,
       entidad: 'VEHICULO',
       datos: { ...vehiculo, ...datosExtra },
+      usuario,
+      rol,
       ip,
       mac,
     };

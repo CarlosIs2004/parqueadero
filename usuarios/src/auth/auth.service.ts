@@ -37,17 +37,17 @@ export class AuthService implements IAuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    await this.usersService.update(user.idPerson, {
-      lastLogin: new Date(),
-    });
-
     const roles = await this.getUserRoles(user.idPerson);
+    const primaryRol = roles.find(r => r !== 'cliente') || roles[0] || 'cliente';
+
+    await this.dataSource.getRepository(User).update(user.idPerson, { lastLogin: new Date() });
 
     this.eventPublisher.publish({
       servicio: 'ms-usuarios',
       accion: 'LOGIN',
       entidad: 'USUARIO',
       usuario: user.username,
+      rol: primaryRol,
       ip,
       mac,
     });
@@ -132,6 +132,7 @@ export class AuthService implements IAuthService {
         accion: 'CREATE',
         entidad: 'PERSONA-USUARIO',
         usuario: dto.username,
+        rol: 'cliente',
         datos: { dni: dto.dni, email: dto.email },
         ip,
         mac,

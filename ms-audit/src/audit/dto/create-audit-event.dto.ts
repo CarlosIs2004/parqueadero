@@ -56,6 +56,7 @@ export class CreateAuditEventDto {
 
     @IsString()
     @IsOptional()
+    @MaxLength(50)
     rol?: string; //ADMIN - USER - GUEST
 
   @IsIP('4', { message: 'La dirección IP debe ser una dirección IPv4 válida.' })

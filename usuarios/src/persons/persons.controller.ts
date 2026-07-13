@@ -48,7 +48,8 @@ export class PersonsController {
   })
   create(@Body() createPersonDto: CreatePersonDto, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.createPersonUseCase.execute(createPersonDto, ip, createPersonDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.createPersonUseCase.execute(createPersonDto, ip, createPersonDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Get('me')
@@ -75,9 +76,9 @@ export class PersonsController {
     type: ResponsePersonDto,
   })
   updateMe(@Req() req: Request, @Body() updatePersonDto: UpdatePersonDto) {
-    const user = req.user as { idPerson: string };
+    const user = req.user as { idPerson: string; username: string; roles: string[] };
     const ip = ((req.headers['x-forwarded-for'] as string as string) || req.ip || '').split(',')[0].trim();
-    return this.personsService.update(user.idPerson, updatePersonDto, ip, updatePersonDto.mac);
+    return this.personsService.update(user.idPerson, updatePersonDto, ip, updatePersonDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Get()
@@ -126,7 +127,8 @@ export class PersonsController {
     @Req() req: any,
   ) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.personsService.update(id, updatePersonDto, ip, updatePersonDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.personsService.update(id, updatePersonDto, ip, updatePersonDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':id')
@@ -138,7 +140,8 @@ export class PersonsController {
   @ApiResponse({ status: 404, description: 'Persona no encontrada' })
   remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.personsService.softDelete(id, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.personsService.softDelete(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':id/hard')
@@ -150,6 +153,7 @@ export class PersonsController {
   @ApiResponse({ status: 404, description: 'Persona no encontrada' })
   hardRemove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.personsService.hardDelete(id, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.personsService.hardDelete(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 }

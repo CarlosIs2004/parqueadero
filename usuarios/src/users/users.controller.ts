@@ -44,7 +44,8 @@ export class UsersController {
   @ApiResponse({ status: 409, description: 'Conflicto: username ya existe' })
   create(@Body() createUserDto: CreateUserDto, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.usersService.create(createUserDto, ip, createUserDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.usersService.create(createUserDto, ip, createUserDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Get()
@@ -94,7 +95,8 @@ export class UsersController {
       data.passwordHash = await bcrypt.hash(updateUserDto.password, salt);
     }
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.usersService.update(id, data, ip, updateUserDto.mac);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.usersService.update(id, data, ip, updateUserDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':id')
@@ -104,7 +106,8 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.usersService.softDelete(id, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.usersService.softDelete(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Delete(':id/hard')
@@ -114,6 +117,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   hardRemove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
-    return this.usersService.hardDelete(id, ip);
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.usersService.hardDelete(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 }

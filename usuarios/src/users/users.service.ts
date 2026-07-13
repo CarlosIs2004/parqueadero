@@ -19,7 +19,7 @@ export class UsersService implements IUsersService {
     private eventPublisher: EventPublisher,
   ) {}
 
-  async create(createUserDto: CreateUserDto, ip?: string, mac?: string): Promise<User> {
+  async create(createUserDto: CreateUserDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<User> {
     const existing = await this.usersRepository.findOne({
       where: { username: createUserDto.username },
     });
@@ -50,8 +50,9 @@ export class UsersService implements IUsersService {
       servicio: 'ms-usuarios',
       accion: 'CREATE',
       entidad: 'USUARIO',
-      usuario: createUserDto.username,
-      datos: { idPerson: createUserDto.idPerson },
+      usuario,
+      rol,
+      datos: { idPerson: createUserDto.idPerson, username: createUserDto.username },
       ip,
       mac,
     });
@@ -86,7 +87,7 @@ export class UsersService implements IUsersService {
     return this.usersRepository.findOne({ where: { username } });
   }
 
-  async update(id: string, updateData: Partial<User>, ip?: string, mac?: string): Promise<User> {
+  async update(id: string, updateData: Partial<User>, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<User> {
     const user = await this.findOne(id);
     if (updateData.username) {
       const existing = await this.usersRepository.findOne({
@@ -103,7 +104,9 @@ export class UsersService implements IUsersService {
       servicio: 'ms-usuarios',
       accion: 'UPDATE',
       entidad: 'USUARIO',
-      usuario: user.username,
+      usuario,
+      rol,
+      datos: { username: user.username },
       ip,
       mac,
     });
@@ -111,27 +114,31 @@ export class UsersService implements IUsersService {
     return updated;
   }
 
-  async softDelete(id: string, ip?: string, mac?: string): Promise<void> {
+  async softDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const user = await this.findOne(id);
     await this.update(id, { active: false });
     this.eventPublisher.publish({
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'USUARIO',
-      usuario: user.username,
+      usuario,
+      rol,
+      datos: { username: user.username },
       ip,
       mac,
     });
   }
 
-  async hardDelete(id: string, ip?: string, mac?: string): Promise<void> {
+  async hardDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const user = await this.findOne(id);
     await this.usersRepository.remove(user);
     this.eventPublisher.publish({
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'USUARIO',
-      usuario: user.username,
+      usuario,
+      rol,
+      datos: { username: user.username },
       ip,
       mac,
     });

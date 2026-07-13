@@ -33,7 +33,7 @@ export class PersonsService implements IPersonsService {
     return person;
   }
 
-  async update(id: string, updatePersonDto: UpdatePersonDto, ip?: string, mac?: string): Promise<Person> {
+  async update(id: string, updatePersonDto: UpdatePersonDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Person> {
     const person = await this.findOne(id);
 
     if (updatePersonDto.username || updatePersonDto.password) {
@@ -94,6 +94,8 @@ export class PersonsService implements IPersonsService {
       servicio: 'ms-usuarios',
       accion: 'UPDATE',
       entidad: 'PERSONA',
+      usuario,
+      rol,
       datos: { id, ...personUpdateData },
       ip,
       mac,
@@ -102,7 +104,7 @@ export class PersonsService implements IPersonsService {
     return this.findOne(id);
   }
 
-  async softDelete(id: string, ip?: string, mac?: string): Promise<void> {
+  async softDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const person = await this.findOne(id);
     person.active = false;
     await this.personsRepository.save(person);
@@ -111,13 +113,15 @@ export class PersonsService implements IPersonsService {
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'PERSONA',
+      usuario,
+      rol,
       datos: { id },
       ip,
       mac,
     });
   }
 
-  async hardDelete(id: string, ip?: string, mac?: string): Promise<void> {
+  async hardDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const person = await this.personsRepository.findOne({
       where: { id },
       relations: { user: true },
@@ -130,6 +134,8 @@ export class PersonsService implements IPersonsService {
       servicio: 'ms-usuarios',
       accion: 'DELETE',
       entidad: 'PERSONA',
+      usuario,
+      rol,
       datos: { id },
       ip,
       mac,

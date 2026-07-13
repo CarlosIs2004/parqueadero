@@ -16,7 +16,7 @@ export class CreatePersonUseCase {
     private readonly eventPublisher: EventPublisher,
   ) {}
 
-  async execute(dto: CreatePersonDto, ip?: string, mac?: string): Promise<Person> {
+  async execute(dto: CreatePersonDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Person> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -106,8 +106,9 @@ export class CreatePersonUseCase {
         servicio: 'ms-usuarios',
         accion: 'CREATE',
         entidad: 'PERSONA-USUARIO',
-        usuario: dto.username,
-        datos: { dni: dto.dni, email: dto.email },
+        usuario,
+        rol,
+        datos: { username: dto.username, dni: dto.dni, email: dto.email },
         ip,
         mac,
       });
