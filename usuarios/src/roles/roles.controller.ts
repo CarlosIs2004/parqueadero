@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Inject,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import type { IRolesService } from './interfaces/roles-service.interface';
@@ -41,8 +42,9 @@ export class RolesController {
     status: 409,
     description: 'Conflicto: el nombre del rol ya existe',
   })
-  create(@Body() createRoleDto: CreateRoleDto) {
-    return this.rolesService.create(createRoleDto);
+  create(@Body() createRoleDto: CreateRoleDto, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.rolesService.create(createRoleDto, ip, createRoleDto.mac);
   }
 
   @Get()
@@ -79,16 +81,19 @@ export class RolesController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateRoleDto: UpdateRoleDto,
+    @Req() req: any,
   ) {
-    return this.rolesService.update(id, updateRoleDto);
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.rolesService.update(id, updateRoleDto, ip, updateRoleDto.mac);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Eliminar (soft delete) un rol' })
   @ApiResponse({ status: 200, description: 'Rol desactivado exitosamente' })
   @ApiResponse({ status: 404, description: 'Rol no encontrado' })
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.rolesService.softDelete(id);
+  remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.rolesService.softDelete(id, ip);
   }
 
   @Delete(':id/hard')
@@ -96,7 +101,8 @@ export class RolesController {
   @ApiOperation({ summary: 'Eliminar físicamente un rol (root)' })
   @ApiResponse({ status: 200, description: 'Rol eliminado físicamente' })
   @ApiResponse({ status: 404, description: 'Rol no encontrado' })
-  hardRemove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.rolesService.hardDelete(id);
+  hardRemove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.rolesService.hardDelete(id, ip);
   }
 }

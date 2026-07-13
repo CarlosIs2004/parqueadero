@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Req } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -23,8 +23,12 @@ export class AuthController {
     },
   })
   @ApiResponse({ status: 401, description: 'Credenciales inválidas' })
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto.username, loginDto.password);
+  async login(
+    @Body() loginDto: LoginDto,
+    @Req() req: any,
+  ) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.authService.login(loginDto.username, loginDto.password, ip, loginDto.mac);
   }
 
   @Post('register')
@@ -34,8 +38,12 @@ export class AuthController {
     description: 'Registro exitoso, retorna access_token y refresh_token',
   })
   @ApiResponse({ status: 409, description: 'Conflicto: datos duplicados' })
-  async register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  async register(
+    @Body() registerDto: RegisterDto,
+    @Req() req: any,
+  ) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.authService.register(registerDto, ip, registerDto.mac);
   }
 
   @Post('refresh')

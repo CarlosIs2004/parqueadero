@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { AuthModule } from './auth/auth.module';
+import { EventPublisherModule } from './common/event-publisher.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: process.env.DB_SYNCHRONIZE === 'true' || true,
     }),
+    EventPublisherModule,
     PersonsModule,
     UsersModule,
     RolesModule,

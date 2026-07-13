@@ -58,8 +58,16 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: usuarios_db
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+      RABBITMQ_QUEUE: audit_queue
+      RABBITMQ_EXCHANGE: audit_exchange
+      RABBITMQ_ROUTING_KEY: audit.event
     depends_on:
       - db_postgres
+      - rabbitmq
     networks:
       - app-net
 

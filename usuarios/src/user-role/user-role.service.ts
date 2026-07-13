@@ -8,15 +8,17 @@ import { Repository } from 'typeorm';
 import { UserRole } from './entities/user-role.entity';
 import { AssignRoleDto } from './dto/assign-role.dto';
 import { IUserRoleService } from './interfaces/user-role-service.interface';
+import { EventPublisher } from '../common/event-publisher.service';
 
 @Injectable()
 export class UserRoleService implements IUserRoleService {
   constructor(
     @InjectRepository(UserRole)
     private userRoleRepository: Repository<UserRole>,
+    private eventPublisher: EventPublisher,
   ) {}
 
-  async assignRole(assignRoleDto: AssignRoleDto): Promise<UserRole> {
+  async assignRole(assignRoleDto: AssignRoleDto, ip?: string, mac?: string): Promise<UserRole> {
     const existing = await this.userRoleRepository.findOne({
       where: {
         idUser: assignRoleDto.idUser,
@@ -29,7 +31,16 @@ export class UserRoleService implements IUserRoleService {
         throw new ConflictException('User already has this role assigned');
       }
       existing.active = true;
-      return this.userRoleRepository.save(existing);
+      const saved = await this.userRoleRepository.save(existing);
+      this.eventPublisher.publish({
+        servicio: 'ms-usuarios',
+        accion: 'CREATE',
+        entidad: 'ROL-USUARIOS',
+        datos: { idUser: assignRoleDto.idUser, idRole: assignRoleDto.idRole },
+        ip,
+        mac,
+      });
+      return saved;
     }
 
     const userRole = this.userRoleRepository.create({
@@ -37,10 +48,19 @@ export class UserRoleService implements IUserRoleService {
       idRole: assignRoleDto.idRole,
     });
 
-    return this.userRoleRepository.save(userRole);
+    const saved = await this.userRoleRepository.save(userRole);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'CREATE',
+      entidad: 'ROL-USUARIOS',
+      datos: { idUser: assignRoleDto.idUser, idRole: assignRoleDto.idRole },
+      ip,
+      mac,
+    });
+    return saved;
   }
 
-  async removeRole(idUser: string, idRole: string): Promise<void> {
+  async removeRole(idUser: string, idRole: string, ip?: string, mac?: string): Promise<void> {
     const userRole = await this.userRoleRepository.findOne({
       where: { idUser, idRole, active: true },
     });
@@ -51,6 +71,14 @@ export class UserRoleService implements IUserRoleService {
 
     userRole.active = false;
     await this.userRoleRepository.save(userRole);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'ROL-USUARIOS',
+      datos: { idUser, idRole },
+      ip,
+      mac,
+    });
   }
 
   async findRolesByUser(idUser: string): Promise<UserRole[]> {
@@ -67,7 +95,7 @@ export class UserRoleService implements IUserRoleService {
     });
   }
 
-  async hardDelete(idUser: string, idRole: string): Promise<void> {
+  async hardDelete(idUser: string, idRole: string, ip?: string, mac?: string): Promise<void> {
     const userRole = await this.userRoleRepository.findOne({
       where: { idUser, idRole },
     });
@@ -75,5 +103,13 @@ export class UserRoleService implements IUserRoleService {
       throw new NotFoundException('Role assignment not found');
     }
     await this.userRoleRepository.remove(userRole);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'ROL-USUARIOS',
+      datos: { idUser, idRole },
+      ip,
+      mac,
+    });
   }
 }

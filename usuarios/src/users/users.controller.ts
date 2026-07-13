@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Inject,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import * as bcrypt from 'bcrypt';
@@ -41,8 +42,9 @@ export class UsersController {
     type: ResponseUserDto,
   })
   @ApiResponse({ status: 409, description: 'Conflicto: username ya existe' })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.usersService.create(createUserDto, ip, createUserDto.mac);
   }
 
   @Get()
@@ -82,6 +84,7 @@ export class UsersController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
+    @Req() req: any,
   ) {
     const data: Partial<User> = {};
     if (updateUserDto.username !== undefined)
@@ -90,7 +93,8 @@ export class UsersController {
       const salt = await bcrypt.genSalt();
       data.passwordHash = await bcrypt.hash(updateUserDto.password, salt);
     }
-    return this.usersService.update(id, data);
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.usersService.update(id, data, ip, updateUserDto.mac);
   }
 
   @Delete(':id')
@@ -98,8 +102,9 @@ export class UsersController {
   @ApiOperation({ summary: 'Eliminar (soft delete) un usuario' })
   @ApiResponse({ status: 200, description: 'Usuario desactivado exitosamente' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.usersService.softDelete(id);
+  remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.usersService.softDelete(id, ip);
   }
 
   @Delete(':id/hard')
@@ -107,7 +112,8 @@ export class UsersController {
   @ApiOperation({ summary: 'Eliminar físicamente un usuario (root)' })
   @ApiResponse({ status: 200, description: 'Usuario eliminado físicamente' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  hardRemove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.usersService.hardDelete(id);
+  hardRemove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.usersService.hardDelete(id, ip);
   }
 }

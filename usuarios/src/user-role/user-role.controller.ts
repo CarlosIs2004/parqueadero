@@ -8,6 +8,7 @@ import {
   ParseUUIDPipe,
   Inject,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import type { IUserRoleService } from './interfaces/user-role-service.interface';
@@ -34,8 +35,9 @@ export class UserRoleController {
     status: 409,
     description: 'Conflicto: la asignación ya existe',
   })
-  assignRole(@Body() assignRoleDto: AssignRoleDto) {
-    return this.userRoleService.assignRole(assignRoleDto);
+  assignRole(@Body() assignRoleDto: AssignRoleDto, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.userRoleService.assignRole(assignRoleDto, ip, assignRoleDto.mac);
   }
 
   @Delete(':idUser/:idRole')
@@ -45,8 +47,10 @@ export class UserRoleController {
   removeRole(
     @Param('idUser', ParseUUIDPipe) idUser: string,
     @Param('idRole', ParseUUIDPipe) idRole: string,
+    @Req() req: any,
   ) {
-    return this.userRoleService.removeRole(idUser, idRole);
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.userRoleService.removeRole(idUser, idRole, ip);
   }
 
   @Delete(':idUser/:idRole/hard')
@@ -57,8 +61,10 @@ export class UserRoleController {
   hardRemoveRole(
     @Param('idUser', ParseUUIDPipe) idUser: string,
     @Param('idRole', ParseUUIDPipe) idRole: string,
+    @Req() req: any,
   ) {
-    return this.userRoleService.hardDelete(idUser, idRole);
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.userRoleService.hardDelete(idUser, idRole, ip);
   }
 
   @Get('user/:idUser')

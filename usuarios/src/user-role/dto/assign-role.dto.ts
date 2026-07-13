@@ -1,5 +1,5 @@
-import { IsString, Matches } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional, Matches } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { trimOnly } from '../../common/transforms';
 
 export class AssignRoleDto {
@@ -18,4 +18,9 @@ export class AssignRoleDto {
   )
   @trimOnly
   idRole: string;
+
+  @ApiPropertyOptional({ description: 'Dirección MAC del cliente', example: '00:1A:2B:3C:4D:5E' })
+  @IsOptional()
+  @IsString()
+  mac?: string;
 }

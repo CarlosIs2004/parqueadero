@@ -8,15 +8,17 @@ import { Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { IRolesService } from './interfaces/roles-service.interface';
+import { EventPublisher } from '../common/event-publisher.service';
 
 @Injectable()
 export class RolesService implements IRolesService {
   constructor(
     @InjectRepository(Role)
     private rolesRepository: Repository<Role>,
+    private eventPublisher: EventPublisher,
   ) {}
 
-  async create(createRoleDto: CreateRoleDto): Promise<Role> {
+  async create(createRoleDto: CreateRoleDto, ip?: string, mac?: string): Promise<Role> {
     const existing = await this.rolesRepository.findOne({
       where: { name: createRoleDto.name },
     });
@@ -26,7 +28,16 @@ export class RolesService implements IRolesService {
       );
     }
     const role = this.rolesRepository.create(createRoleDto);
-    return this.rolesRepository.save(role);
+    const saved = await this.rolesRepository.save(role);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'CREATE',
+      entidad: 'ROL',
+      datos: { name: createRoleDto.name },
+      ip,
+      mac,
+    });
+    return saved;
   }
 
   async findAll(): Promise<Role[]> {
@@ -41,7 +52,7 @@ export class RolesService implements IRolesService {
     return role;
   }
 
-  async update(id: string, updateData: Partial<Role>): Promise<Role> {
+  async update(id: string, updateData: Partial<Role>, ip?: string, mac?: string): Promise<Role> {
     if (updateData.name) {
       const existing = await this.rolesRepository.findOne({
         where: { name: updateData.name },
@@ -54,15 +65,41 @@ export class RolesService implements IRolesService {
     }
     const role = await this.findOne(id);
     Object.assign(role, updateData);
-    return this.rolesRepository.save(role);
+    const updated = await this.rolesRepository.save(role);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'UPDATE',
+      entidad: 'ROL',
+      datos: { name: updateData.name },
+      ip,
+      mac,
+    });
+    return updated;
   }
 
-  async softDelete(id: string): Promise<void> {
+  async softDelete(id: string, ip?: string, mac?: string): Promise<void> {
+    const role = await this.findOne(id);
     await this.update(id, { active: false });
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'ROL',
+      datos: { name: role.name },
+      ip,
+      mac,
+    });
   }
 
-  async hardDelete(id: string): Promise<void> {
+  async hardDelete(id: string, ip?: string, mac?: string): Promise<void> {
     const role = await this.findOne(id);
     await this.rolesRepository.remove(role);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'ROL',
+      datos: { name: role.name },
+      ip,
+      mac,
+    });
   }
 }

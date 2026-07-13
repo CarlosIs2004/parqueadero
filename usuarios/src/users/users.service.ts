@@ -9,15 +9,17 @@ import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { IUsersService } from './interfaces/users-service.interface';
+import { EventPublisher } from '../common/event-publisher.service';
 
 @Injectable()
 export class UsersService implements IUsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private eventPublisher: EventPublisher,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto, ip?: string, mac?: string): Promise<User> {
     const existing = await this.usersRepository.findOne({
       where: { username: createUserDto.username },
     });
@@ -42,7 +44,19 @@ export class UsersService implements IUsersService {
       passwordHash,
     });
 
-    return this.usersRepository.save(user);
+    const saved = await this.usersRepository.save(user);
+
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'CREATE',
+      entidad: 'USUARIO',
+      usuario: createUserDto.username,
+      datos: { idPerson: createUserDto.idPerson },
+      ip,
+      mac,
+    });
+
+    return saved;
   }
 
   async findAll(): Promise<User[]> {
@@ -72,7 +86,7 @@ export class UsersService implements IUsersService {
     return this.usersRepository.findOne({ where: { username } });
   }
 
-  async update(id: string, updateData: Partial<User>): Promise<User> {
+  async update(id: string, updateData: Partial<User>, ip?: string, mac?: string): Promise<User> {
     const user = await this.findOne(id);
     if (updateData.username) {
       const existing = await this.usersRepository.findOne({
@@ -83,15 +97,43 @@ export class UsersService implements IUsersService {
       }
     }
     Object.assign(user, updateData);
-    return this.usersRepository.save(user);
+    const updated = await this.usersRepository.save(user);
+
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'UPDATE',
+      entidad: 'USUARIO',
+      usuario: user.username,
+      ip,
+      mac,
+    });
+
+    return updated;
   }
 
-  async softDelete(id: string): Promise<void> {
+  async softDelete(id: string, ip?: string, mac?: string): Promise<void> {
+    const user = await this.findOne(id);
     await this.update(id, { active: false });
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'USUARIO',
+      usuario: user.username,
+      ip,
+      mac,
+    });
   }
 
-  async hardDelete(id: string): Promise<void> {
+  async hardDelete(id: string, ip?: string, mac?: string): Promise<void> {
     const user = await this.findOne(id);
     await this.usersRepository.remove(user);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'USUARIO',
+      usuario: user.username,
+      ip,
+      mac,
+    });
   }
 }

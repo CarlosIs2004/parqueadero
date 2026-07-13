@@ -14,6 +14,7 @@ import { Person } from '../persons/entities/person.entity';
 import { User } from '../users/entities/user.entity';
 import { Role } from '../roles/entities/role.entity';
 import { UserRole } from '../user-role/entities/user-role.entity';
+import { EventPublisher, AuditEvent } from '../common/event-publisher.service';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -22,11 +23,14 @@ export class AuthService implements IAuthService {
     private readonly usersService: IUsersService,
     private readonly jwtService: JwtService,
     private readonly dataSource: DataSource,
+    private readonly eventPublisher: EventPublisher,
   ) {}
 
   async login(
     username: string,
     password: string,
+    ip?: string,
+    mac?: string,
   ): Promise<{ access_token: string; refresh_token: string }> {
     const user = await this.usersService.validateUser(username, password);
     if (!user) {
@@ -39,11 +43,22 @@ export class AuthService implements IAuthService {
 
     const roles = await this.getUserRoles(user.idPerson);
 
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'LOGIN',
+      entidad: 'USUARIO',
+      usuario: user.username,
+      ip,
+      mac,
+    });
+
     return this.generateTokens(user.idPerson, user.username, roles);
   }
 
   async register(
     dto: RegisterDto,
+    ip?: string,
+    mac?: string,
   ): Promise<{ access_token: string; refresh_token: string }> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -111,6 +126,16 @@ export class AuthService implements IAuthService {
       await userRoleRepo.save(userRole);
 
       await queryRunner.commitTransaction();
+
+      this.eventPublisher.publish({
+        servicio: 'ms-usuarios',
+        accion: 'CREATE',
+        entidad: 'PERSONA-USUARIO',
+        usuario: dto.username,
+        datos: { dni: dto.dni, email: dto.email },
+        ip,
+        mac,
+      });
 
       return this.generateTokens(savedPerson.id, dto.username, ['cliente']);
     } catch (error) {

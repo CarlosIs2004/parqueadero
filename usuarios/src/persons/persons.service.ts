@@ -6,6 +6,7 @@ import { Person } from './entities/person.entity';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import type { IPersonsService } from './interfaces/persons-service.interface';
 import type { IUsersService } from '../users/interfaces/users-service.interface';
+import { EventPublisher } from '../common/event-publisher.service';
 
 @Injectable()
 export class PersonsService implements IPersonsService {
@@ -14,6 +15,7 @@ export class PersonsService implements IPersonsService {
     private personsRepository: Repository<Person>,
     @Inject('IUsersService')
     private usersService: IUsersService,
+    private eventPublisher: EventPublisher,
   ) {}
 
   async findAll(): Promise<Person[]> {
@@ -31,7 +33,7 @@ export class PersonsService implements IPersonsService {
     return person;
   }
 
-  async update(id: string, updatePersonDto: UpdatePersonDto): Promise<Person> {
+  async update(id: string, updatePersonDto: UpdatePersonDto, ip?: string, mac?: string): Promise<Person> {
     const person = await this.findOne(id);
 
     if (updatePersonDto.username || updatePersonDto.password) {
@@ -88,17 +90,34 @@ export class PersonsService implements IPersonsService {
       await this.personsRepository.save(person);
     }
 
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'UPDATE',
+      entidad: 'PERSONA',
+      datos: { id, ...personUpdateData },
+      ip,
+      mac,
+    });
+
     return this.findOne(id);
   }
 
-  async softDelete(id: string): Promise<void> {
+  async softDelete(id: string, ip?: string, mac?: string): Promise<void> {
     const person = await this.findOne(id);
     person.active = false;
     await this.personsRepository.save(person);
     await this.usersService.softDelete(id);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'PERSONA',
+      datos: { id },
+      ip,
+      mac,
+    });
   }
 
-  async hardDelete(id: string): Promise<void> {
+  async hardDelete(id: string, ip?: string, mac?: string): Promise<void> {
     const person = await this.personsRepository.findOne({
       where: { id },
       relations: { user: true },
@@ -107,5 +126,13 @@ export class PersonsService implements IPersonsService {
       throw new NotFoundException(`Person with id ${id} not found`);
     }
     await this.personsRepository.remove(person);
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'DELETE',
+      entidad: 'PERSONA',
+      datos: { id },
+      ip,
+      mac,
+    });
   }
 }

@@ -5,6 +5,7 @@ import { Person } from '../entities/person.entity';
 import { User } from '../../users/entities/user.entity';
 import { CreatePersonDto } from '../dto/create-person.dto';
 import type { IPersonsService } from '../interfaces/persons-service.interface';
+import { EventPublisher } from '../../common/event-publisher.service';
 
 @Injectable()
 export class CreatePersonUseCase {
@@ -12,9 +13,10 @@ export class CreatePersonUseCase {
     @Inject('IPersonsService')
     private readonly personsService: IPersonsService,
     private readonly dataSource: DataSource,
+    private readonly eventPublisher: EventPublisher,
   ) {}
 
-  async execute(dto: CreatePersonDto): Promise<Person> {
+  async execute(dto: CreatePersonDto, ip?: string, mac?: string): Promise<Person> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -99,6 +101,16 @@ export class CreatePersonUseCase {
       }
 
       await queryRunner.commitTransaction();
+
+      this.eventPublisher.publish({
+        servicio: 'ms-usuarios',
+        accion: 'CREATE',
+        entidad: 'PERSONA-USUARIO',
+        usuario: dto.username,
+        datos: { dni: dto.dni, email: dto.email },
+        ip,
+        mac,
+      });
 
       return this.personsService.findOne(person.id);
     } catch (error) {

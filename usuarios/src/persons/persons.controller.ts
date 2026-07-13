@@ -46,8 +46,9 @@ export class PersonsController {
     status: 409,
     description: 'Conflicto: DNI, email o username ya existen',
   })
-  create(@Body() createPersonDto: CreatePersonDto) {
-    return this.createPersonUseCase.execute(createPersonDto);
+  create(@Body() createPersonDto: CreatePersonDto, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.createPersonUseCase.execute(createPersonDto, ip, createPersonDto.mac);
   }
 
   @Get('me')
@@ -75,7 +76,8 @@ export class PersonsController {
   })
   updateMe(@Req() req: Request, @Body() updatePersonDto: UpdatePersonDto) {
     const user = req.user as { idPerson: string };
-    return this.personsService.update(user.idPerson, updatePersonDto);
+    const ip = ((req.headers['x-forwarded-for'] as string as string) || req.ip || '').split(',')[0].trim();
+    return this.personsService.update(user.idPerson, updatePersonDto, ip, updatePersonDto.mac);
   }
 
   @Get()
@@ -121,8 +123,10 @@ export class PersonsController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updatePersonDto: UpdatePersonDto,
+    @Req() req: any,
   ) {
-    return this.personsService.update(id, updatePersonDto);
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.personsService.update(id, updatePersonDto, ip, updatePersonDto.mac);
   }
 
   @Delete(':id')
@@ -132,8 +136,9 @@ export class PersonsController {
   @ApiOperation({ summary: 'Eliminar (soft delete) una persona (solo admin)' })
   @ApiResponse({ status: 200, description: 'Persona desactivada exitosamente' })
   @ApiResponse({ status: 404, description: 'Persona no encontrada' })
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.personsService.softDelete(id);
+  remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.personsService.softDelete(id, ip);
   }
 
   @Delete(':id/hard')
@@ -143,7 +148,8 @@ export class PersonsController {
   @ApiOperation({ summary: 'Eliminar físicamente una persona (root)' })
   @ApiResponse({ status: 200, description: 'Persona eliminada físicamente' })
   @ApiResponse({ status: 404, description: 'Persona no encontrada' })
-  hardRemove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.personsService.hardDelete(id);
+  hardRemove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    return this.personsService.hardDelete(id, ip);
   }
 }

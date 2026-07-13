@@ -62,9 +62,9 @@ export class CreateAuditEventDto {
   @IsNotEmpty()
   ip!: string;
 
+  @IsOptional()
   @IsMACAddress({
     message: 'La dirección MAC debe ser una dirección MAC válida.',
   })
-  @IsNotEmpty()
-  mac!: string;
+  mac?: string;
 }

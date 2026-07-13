@@ -1,5 +1,5 @@
 import { IsString, IsBoolean, IsOptional, MaxLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { toLowerTrim } from '../../common/transforms';
 
 export class CreateRoleDto {
@@ -23,4 +23,9 @@ export class CreateRoleDto {
   @IsOptional()
   @IsBoolean()
   active?: boolean;
+
+  @ApiPropertyOptional({ description: 'Dirección MAC del cliente', example: '00:1A:2B:3C:4D:5E' })
+  @IsOptional()
+  @IsString()
+  mac?: string;
 }
