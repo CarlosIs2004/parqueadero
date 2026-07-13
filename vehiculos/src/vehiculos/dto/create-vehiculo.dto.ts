@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsIn, IsInt, IsNotEmpty, IsNumber, IsString, Matches, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
+import { IsIn, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
 
 export class BaseVehiculoDto {
     
@@ -146,6 +146,11 @@ export class CreateVehiculoDto {
   @ApiProperty({ description: 'Tipo de vehículo', enum: ['auto', 'moto', 'camioneta'], example: 'auto' })
   @IsIn(['auto', 'moto', 'camioneta'])
   tipo!: string;
+
+  @ApiPropertyOptional({ description: 'Dirección MAC del cliente', example: '00:1A:2B:3C:4D:5E' })
+  @IsOptional()
+  @IsString()
+  mac?: string;
 
   @ApiProperty({
     description: 'Datos específicos del vehículo según el tipo',

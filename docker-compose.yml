@@ -31,9 +31,17 @@ services:
       DB_CONTRASENA: ${DB_PASSWORD}
       DB_NOMBRE: ${DB_NAME}
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+      RABBITMQ_QUEUE: audit_queue
+      RABBITMQ_EXCHANGE: audit_exchange
+      RABBITMQ_ROUTING_KEY: audit.event
 
     depends_on:
       - db_postgres
+      - rabbitmq
     networks:
       - app-net
 
@@ -149,8 +157,60 @@ services:
     networks:
       - app-net
 
+  # ─── RabbitMQ para auditoría ──────────────────────────────────
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_audit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-net
+
+  # ─── Base de datos para ms-audit ──────────────────────────────
+  audit-db:
+    image: postgres:15
+    container_name: postgres_audit
+    environment:
+      POSTGRES_USER: audit_user
+      POSTGRES_PASSWORD: audit_pass
+      POSTGRES_DB: audit_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_audit_data:/var/lib/postgresql/data
+    networks:
+      - app-net
+
+  # ─── Microservicio de auditoría ───────────────────────────────
+  audit:
+    build: ./ms-audit
+    container_name: ms_audit_app
+    ports:
+      - "3005:3005"
+    environment:
+      PORT: 3005
+      DB_HOST: audit-db
+      DB_PORT: 5432
+      DB_USER: audit_user
+      DB_PASSWORD: audit_pass
+      DB_NAME: audit_db
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+      RABBITMQ_QUEUE: audit_queue
+      RABBITMQ_EXCHANGE: audit_exchange
+      RABBITMQ_ROUTING_KEY: audit.event
+    depends_on:
+      - audit-db
+      - rabbitmq
+    networks:
+      - app-net
+
 volumes:
   postgres_data:
+  postgres_audit_data:
 
 networks:
   app-net:

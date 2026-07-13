@@ -132,6 +132,14 @@ services:
           - /api/docs/tickets
         strip_path: false
 
+  - name: audit-service
+    url: http://ms_audit_app:3005/api/v1/audit
+    routes:
+      - name: audit-route
+        paths:
+          - /api/audit
+        strip_path: true
+
   - name: reservas-asignaciones-service
     url: http://reservas_app:3002/asignaciones
     routes:

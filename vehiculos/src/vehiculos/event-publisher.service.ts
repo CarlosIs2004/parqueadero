@@ -15,6 +15,7 @@ export interface AuditEvent {
   datos?: any;
   usuario?: string;
   ip?: string;
+  mac?: string;
 }
 
 @Injectable()

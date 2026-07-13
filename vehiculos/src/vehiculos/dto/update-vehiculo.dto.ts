@@ -76,4 +76,9 @@ export class UpdateVehiculoDto {
         message: 'La clasificación debe ser: Electrico, Hibrido, Gasolina o Diesel'
     })
     clasificacion?: string;
+
+    @ApiPropertyOptional({ description: 'Dirección MAC del cliente', example: '00:1A:2B:3C:4D:5E' })
+    @IsOptional()
+    @IsString()
+    mac?: string;
 }

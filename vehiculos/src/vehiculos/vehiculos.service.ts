@@ -5,18 +5,17 @@ import { Vehiculo } from './entities/vehiculo.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FactoryVehiculos } from './factory/factory.vehiculo';
-import { AuditEvent } from './event-publisher.service';
+import { AuditEvent, EventPublisher } from './event-publisher.service';
 
 @Injectable()
 export class VehiculosService {
-  eventPublisher: any;
 
   constructor(
     @InjectRepository(Vehiculo)
-    private repositoryVehiculos:Repository<Vehiculo>
-    
+    private repositoryVehiculos:Repository<Vehiculo>,
+    private eventPublisher: EventPublisher
   ){}
-  async create(createVehiculoDto: CreateVehiculoDto):Promise<Vehiculo> {
+  async create(createVehiculoDto: CreateVehiculoDto, ip?: string, mac?: string): Promise<Vehiculo> {
     const existe = await this.repositoryVehiculos.findOne({
       where:{
         placa:createVehiculoDto.datos.placa
@@ -29,8 +28,8 @@ export class VehiculosService {
 
     const saved = await this.repositoryVehiculos.save(vehiculo);
     
-    await this.emitEvent('create', saved, { tipo: createVehiculoDto.tipo });
-    return this.repositoryVehiculos.save(vehiculo);
+    await this.emitEvent('CREATE', saved, ip, mac, { tipo: createVehiculoDto.tipo });
+    return saved;
     
   }
 
@@ -57,7 +56,7 @@ export class VehiculosService {
     return existe;
   }
 
-  async update(id: string, updateVehiculoDto: UpdateVehiculoDto): Promise<Vehiculo> {
+  async update(id: string, updateVehiculoDto: UpdateVehiculoDto, ip?: string, mac?: string): Promise<Vehiculo> {
     const vehiculo = await this.findOne(id);
 
     if (updateVehiculoDto.placa && updateVehiculoDto.placa !== vehiculo.placa) {
@@ -70,26 +69,32 @@ export class VehiculosService {
     }
     Object.assign(vehiculo, updateVehiculoDto);
 
-    return this.repositoryVehiculos.save(vehiculo);
+    const updated = await this.repositoryVehiculos.save(vehiculo);
+    await this.emitEvent('UPDATE', updated, ip, mac);
+    return updated;
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string, ip?: string, mac?: string): Promise<void> {
     const vehiculo = await this.findOne(id);
     await this.repositoryVehiculos.remove(vehiculo);
+    await this.emitEvent('DELETE', vehiculo, ip, mac);
   }
 
   // Método auxiliar para publicar eventos
   private async emitEvent(
     accion: string,
     vehiculo: Vehiculo,
+    ip?: string,
+    mac?: string,
     datosExtra?: any,
   ) {
     const event: AuditEvent = {
-      servicio: 'vehiculos',
+      servicio: 'ms-vehiculos',
       accion,
-      entidad: 'Vehiculo',
+      entidad: 'VEHICULO',
       datos: { ...vehiculo, ...datosExtra },
-      // usuario e ip se podrían obtener del contexto (request) si se inyecta
+      ip,
+      mac,
     };
     await this.eventPublisher.publish(event);
   }

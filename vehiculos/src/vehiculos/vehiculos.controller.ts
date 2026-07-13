@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req, Headers } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam, ApiExtraModels, ApiBearerAuth } from '@nestjs/swagger';
 import { VehiculosService } from './vehiculos.service';
 import { CreateVehiculoDto, AutoDto, MotoDto, CamionetaDto } from './dto/create-vehiculo.dto';
@@ -22,8 +22,12 @@ export class VehiculosController {
   @ApiResponse({ status: 201, description: 'Vehículo creado exitosamente', type: ResponseVehiculoDto })
   @ApiResponse({ status: 400, description: 'Datos inválidos' })
   @ApiResponse({ status: 409, description: 'La placa ya existe' })
-  create(@Body() createVehiculoDto: CreateVehiculoDto) {
-    return this.vehiculosService.create(createVehiculoDto);
+  create(
+    @Body() createVehiculoDto: CreateVehiculoDto,
+    @Req() req: any,
+  ) {
+    const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+    return this.vehiculosService.create(createVehiculoDto, ip, createVehiculoDto.mac);
   }
 
   @Get()
@@ -52,8 +56,13 @@ export class VehiculosController {
   @ApiParam({ name: 'id', description: 'UUID del vehículo', example: '550e8400-e29b-41d4-a716-446655440000' })
   @ApiResponse({ status: 200, description: 'Vehículo actualizado', type: ResponseVehiculoDto })
   @ApiResponse({ status: 404, description: 'Vehículo no encontrado' })
-  update(@Param('id') id: string, @Body() updateVehiculoDto: UpdateVehiculoDto) {
-    return this.vehiculosService.update(id, updateVehiculoDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateVehiculoDto: UpdateVehiculoDto,
+    @Req() req: any,
+  ) {
+    const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+    return this.vehiculosService.update(id, updateVehiculoDto, ip, updateVehiculoDto.mac);
   }
 
   @Delete(':id')
@@ -63,7 +72,11 @@ export class VehiculosController {
   @ApiParam({ name: 'id', description: 'UUID del vehículo', example: '550e8400-e29b-41d4-a716-446655440000' })
   @ApiResponse({ status: 200, description: 'Vehículo eliminado' })
   @ApiResponse({ status: 404, description: 'Vehículo no encontrado' })
-  remove(@Param('id') id: string) {
-    return this.vehiculosService.remove(id);
+  remove(
+    @Param('id') id: string,
+    @Req() req: any,
+  ) {
+    const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+    return this.vehiculosService.remove(id, ip);
   }
 }
