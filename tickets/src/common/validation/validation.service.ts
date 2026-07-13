@@ -3,6 +3,11 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
+export interface VehiculoData {
+  tipo: string;
+  placa: string;
+}
+
 @Injectable()
 export class ValidationService {
   private readonly logger = new Logger(ValidationService.name);
@@ -102,6 +107,27 @@ export class ValidationService {
       this.logger.warn(
         `No se pudo validar espacio ${id}: ${error?.message}. Continuando sin validación.`,
       );
+    }
+  }
+
+  async fetchVehiculoData(id: string): Promise<VehiculoData> {
+    try {
+      const { data } = await firstValueFrom(
+        this.httpService.get(`${this.vehiculosUrl}/${id}`, {
+          headers: this.headers,
+        }),
+      );
+      return { tipo: data.tipo, placa: data.placa };
+    } catch (error: any) {
+      if (error?.response?.status === 404) {
+        throw new BadRequestException(
+          `El vehículo con ID "${id}" no existe`,
+        );
+      }
+      this.logger.warn(
+        `No se pudo obtener datos del vehículo ${id}: ${error?.message}. Usando valores por defecto.`,
+      );
+      return { tipo: 'Auto', placa: 'SIN-PLACA' };
     }
   }
 }
