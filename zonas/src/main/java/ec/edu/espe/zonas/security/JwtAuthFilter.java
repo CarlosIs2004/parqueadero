@@ -3,6 +3,7 @@ package ec.edu.espe.zonas.security;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -98,9 +99,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(auth);
 
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            log.warn("Token expirado: {}", e.getMessage());
+            SecurityContextHolder.clearContext();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(
+                "{\"error\":\"Token expirado\",\"message\":\"La sesión ha expirado. Vuelva a iniciar sesión.\",\"status\":401}"
+            );
+            return;
         } catch (JwtException e) {
             log.warn("JWT inválido: {}", e.getMessage());
             SecurityContextHolder.clearContext();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(
+                "{\"error\":\"Token inválido\",\"message\":\"El token no es válido. Vuelva a iniciar sesión.\",\"status\":401}"
+            );
+            return;
         } catch (Exception e) {
             log.error("Error inesperado al procesar JWT: {}", e.getMessage(), e);
             SecurityContextHolder.clearContext();
