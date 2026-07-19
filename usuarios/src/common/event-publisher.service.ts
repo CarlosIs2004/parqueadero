@@ -91,7 +91,6 @@ export class EventPublisher implements OnModuleInit, OnModuleDestroy {
         error instanceof Error ? error.message : 'Error desconocido';
       this.logger.error(`Error conectando a RabbitMQ: ${errorMessage}`);
       this.scheduleReconnect();
-      throw error;
     }
   }
 

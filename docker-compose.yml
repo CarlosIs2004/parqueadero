@@ -31,6 +31,7 @@ services:
       DB_CONTRASENA: ${DB_PASSWORD}
       DB_NOMBRE: ${DB_NAME}
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
+      USUARIOS_API_URL: http://usuarios:3001/users
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: guest
@@ -58,6 +59,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: usuarios_db
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
+      REFRESH_JWT_SECRET: ${REFRESH_JWT_SECRET:-mi_refresh_secret_2024_para_jwt!}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: guest
@@ -82,6 +84,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
+      USUARIOS_API_URL: http://usuarios:3001/users
     depends_on:
       - db_postgres
     networks:
@@ -100,7 +103,8 @@ services:
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: reservas_db
-      VEHICULOS_API_URL: http://kong:8000/api/vehiculos
+      VEHICULOS_API_URL: http://vehiculos:3000/vehiculos
+      USUARIOS_API_URL: http://usuarios:3001/users
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
     depends_on:
       - db_postgres
@@ -130,10 +134,10 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: tickets_db
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
-      VEHICULOS_API_URL: http://kong:8000/api/vehiculos
-      USUARIOS_API_URL: http://kong:8000/api/usuarios
-      ESPACIOS_API_URL: http://kong:8000/api/espacios
-      SERVICE_JWT_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlY2YwYzJhZS0yYzg1LTQxYjgtYjE1Ny00NmQ2N2Y0ZGQzMmQiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZXMiOlsiY2xpZW50ZSIsImFkbWluIiwicmVjYXVkYWRvciIsInJvb3QiXSwiaWF0IjoxNzgzMzQ5OTA4LCJleHAiOjE3ODMzNTA4MDh9.KiHitgA_RSk-hAxoH05z6X28Y4Z96dihLyi4hFBXmlY
+      VEHICULOS_API_URL: http://vehiculos:3000/vehiculos
+      USUARIOS_API_URL: http://usuarios:3001/users
+      ESPACIOS_API_URL: http://zonas:8080/api/v1/espacios
+      SERVICE_JWT_TOKEN: ${SERVICE_JWT_TOKEN:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlY2YwYzJhZS0yYzg1LTQxYjgtYjE1Ny00NmQ2N2Y0ZGQzMmQiLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzgzMzQ5OTA4LCJleHAiOjE3ODMzNTA4MDh9.adZX9vN3pV62p9v2t3khQSM3qAQrV4PqB4nq_Xl8jSA}
     depends_on:
       - db_postgres
     networks:

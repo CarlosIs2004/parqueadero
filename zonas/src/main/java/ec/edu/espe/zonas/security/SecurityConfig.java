@@ -28,15 +28,15 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
 
-                // ─── Zonas: solo lectura para cliente, CRUD para admin ───
-                .requestMatchers(HttpMethod.GET, "/api/v1/zonas/**").hasAnyRole("cliente", "admin", "recaudador")
+                // ─── Zonas: GET público (dashboard), CRUD para admin ───
+                .requestMatchers(HttpMethod.GET, "/api/v1/zonas/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/zonas/**").hasRole("admin")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/zonas/**").hasRole("admin")
                 .requestMatchers(HttpMethod.PATCH, "/api/v1/zonas/**").hasRole("admin")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/zonas/**").hasAnyRole("admin", "root")
 
-                // ─── Espacios: solo lectura para cliente, CRUD para admin ───
-                .requestMatchers(HttpMethod.GET, "/api/v1/espacios/**").hasAnyRole("cliente", "admin", "recaudador")
+                // ─── Espacios: GET público (dashboard), CRUD para admin ───
+                .requestMatchers(HttpMethod.GET, "/api/v1/espacios/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/espacios/**").hasRole("admin")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/espacios/**").hasRole("admin")
                 .requestMatchers(HttpMethod.PATCH, "/api/v1/espacios/**").hasRole("admin")
@@ -44,6 +44,9 @@ public class SecurityConfig {
 
                 // ─── Swagger/OpenAPI: público ───
                 .requestMatchers("/api/swagger/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+
+                // ─── Error pages: público (evita 403 por redirección interna) ───
+                .requestMatchers("/error").permitAll()
 
                 .anyRequest().authenticated()
             )

@@ -7,6 +7,7 @@ export interface IUsersService {
   findOne(id: string): Promise<User>;
   validateUser(username: string, password: string): Promise<User | null>;
   findByUsername(username: string): Promise<User | null>;
+  getUserRoles(idPerson: string): Promise<string[]>;
   update(id: string, updateData: Partial<User>, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<User>;
   softDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void>;
   hardDelete(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void>;

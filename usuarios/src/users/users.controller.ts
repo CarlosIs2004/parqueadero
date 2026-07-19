@@ -21,6 +21,7 @@ import { ResponseUserDto } from './dto/response-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Usuarios')
 @ApiBearerAuth()
@@ -119,5 +120,15 @@ export class UsersController {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
     const user = req.user as { username: string; roles: string[] } | undefined;
     return this.usersService.hardDelete(id, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
+  }
+
+  @Get(':id/roles')
+  @Public()
+  @Roles()
+  @ApiOperation({ summary: 'Obtener roles actuales de un usuario (para otros microservicios)' })
+  @ApiResponse({ status: 200, description: 'Lista de roles del usuario' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+  async getRoles(@Param('id', ParseUUIDPipe) id: string): Promise<string[]> {
+    return this.usersService.getUserRoles(id);
   }
 }

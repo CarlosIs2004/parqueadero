@@ -9,22 +9,27 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     @Inject('IUsersService')
     private readonly usersService: IUsersService,
   ) {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error('JWT_SECRET environment variable is required');
+    }
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || 'default_secret',
+      secretOrKey: secret,
     });
   }
 
   async validate(payload: {
     sub: string;
     username: string;
-    roles: string[];
   }) {
     const user = await this.usersService.findOne(payload.sub);
     if (!user) {
       throw new UnauthorizedException('Token inválido: usuario no existe');
     }
-    return { idPerson: user.idPerson, username: user.username, roles: payload.roles || [] };
+    // Consultar roles actuales desde la BD en cada request
+    const roles = await this.usersService.getUserRoles(payload.sub);
+    return { idPerson: user.idPerson, username: user.username, roles };
   }
 }

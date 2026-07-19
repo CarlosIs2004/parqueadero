@@ -60,7 +60,12 @@ export class TicketsService {
         ? new Date(createTicketDto.fechaHoraSalida)
         : undefined,
     });
-    return this.ticketRepository.save(ticket);
+    const saved = await this.ticketRepository.save(ticket);
+    this.sseService.emitEvent('espacio-ocupado', {
+      idEspacio: saved.idEspacio,
+      idTicket: saved.idTicket,
+    });
+    return saved;
   }
 
   async findAll(): Promise<Ticket[]> {
@@ -140,7 +145,12 @@ export class TicketsService {
     ticket.estadoTicket = EstadoTicket.PAGADO;
     ticket.valorRecaudado = valor;
 
-    return this.ticketRepository.save(ticket);
+    const saved = await this.ticketRepository.save(ticket);
+    this.sseService.emitEvent('espacio-disponible', {
+      idEspacio: saved.idEspacio,
+      idTicket: saved.idTicket,
+    });
+    return saved;
   }
 
   async anular(id: string): Promise<Ticket> {
@@ -153,6 +163,11 @@ export class TicketsService {
     }
 
     ticket.estadoTicket = EstadoTicket.ANULADO;
-    return this.ticketRepository.save(ticket);
+    const saved = await this.ticketRepository.save(ticket);
+    this.sseService.emitEvent('espacio-disponible', {
+      idEspacio: saved.idEspacio,
+      idTicket: saved.idTicket,
+    });
+    return saved;
   }
 }

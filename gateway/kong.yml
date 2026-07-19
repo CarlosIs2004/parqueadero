@@ -132,6 +132,14 @@ services:
           - /api/docs/tickets
         strip_path: false
 
+  - name: sse-service
+    url: http://tickets_app:3004/sse
+    routes:
+      - name: sse-route
+        paths:
+          - /api/sse
+        strip_path: true
+
   - name: audit-service
     url: http://ms_audit_app:3005/api/v1/audit
     routes:

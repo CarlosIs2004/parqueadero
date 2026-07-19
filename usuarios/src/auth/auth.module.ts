@@ -18,13 +18,19 @@ import { UsersModule } from '../users/users.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: () => ({
-        secret: process.env.JWT_SECRET || 'default_secret',
-        signOptions: {
-          expiresIn: (process.env.JWT_EXPIRES_IN ||
-            '15m') as unknown as jwt.SignOptions['expiresIn'],
-        },
-      }),
+      useFactory: () => {
+        const secret = process.env.JWT_SECRET;
+        if (!secret) {
+          throw new Error('JWT_SECRET environment variable is required');
+        }
+        return {
+          secret,
+          signOptions: {
+            expiresIn: (process.env.JWT_EXPIRES_IN ||
+              '15m') as unknown as jwt.SignOptions['expiresIn'],
+          },
+        };
+      },
     }),
   ],
   controllers: [AuthController],

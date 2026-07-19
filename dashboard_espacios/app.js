@@ -1,5 +1,5 @@
-const API_ESPACIOS = 'http://localhost:8081/api/espacios';
-const SSE_URL = 'http://localhost:3001/sse/espacios';
+const API_ESPACIOS = 'http://localhost:8000/api/espacios';
+const SSE_URL = 'http://localhost:8000/api/sse/espacios';
 
 const container = document.getElementById('espaciosContainer');
 const totalSpan = document.getElementById('totalEspacios');
@@ -47,10 +47,13 @@ const renderizarEspacios = (espacios) => {
 
     // Construir HTML de las tarjetas
     const html = espacios.map((esp) => {
-        const estadoClass = `bg-${esp.estado.toLowerCase()}`;
+        const bgColor = esp.estado === 'DISPONIBLE' ? 'bg-green-50 border-green-300' :
+                        esp.estado === 'OCUPADO' ? 'bg-red-50 border-red-300' :
+                        'bg-yellow-50 border-yellow-300';
         return `
-            <div class="espacio-card ${estadoClass} rounded-lg shadow p-4 flex flex-col">
-                <div class="font-bold text-lg text-gray-800">${esp.nombre || 'Sin nombre'}</div>
+            <div class="espacio-card ${bgColor} border-2 rounded-lg shadow p-4 flex flex-col">
+                <div class="font-bold text-lg text-gray-800">${esp.codigo || 'Sin código'}</div>
+                <div class="text-sm text-gray-600">${esp.descripcion || ''}</div>
                 <div class="text-sm text-gray-600">Zona: ${esp.nombreZona || 'N/A'}</div>
                 <div class="text-sm text-gray-600">Tipo: ${esp.tipo || 'N/A'}</div>
                 <div class="mt-2 flex items-center justify-between">
@@ -60,7 +63,7 @@ const renderizarEspacios = (espacios) => {
                           'bg-yellow-200 text-yellow-800'}">
                         ${esp.estado}
                     </span>
-                    <span class="text-xs text-gray-400">ID: ${esp.id.slice(0,8)}</span>
+                    <span class="text-xs text-gray-400">${esp.id ? esp.id.slice(0,8) : ''}</span>
                 </div>
             </div>
         `;

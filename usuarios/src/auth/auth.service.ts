@@ -151,14 +151,17 @@ export class AuthService implements IAuthService {
     refreshToken: string,
   ): Promise<{ access_token: string }> {
     try {
+      const refreshSecret = process.env.REFRESH_JWT_SECRET;
+      if (!refreshSecret) {
+        throw new UnauthorizedException('REFRESH_JWT_SECRET no configurado');
+      }
       const payload = await this.jwtService.verifyAsync(refreshToken, {
-        secret: process.env.REFRESH_JWT_SECRET || 'default_refresh_secret',
+        secret: refreshSecret,
       });
 
       const access_token = await this.jwtService.signAsync({
         sub: payload.sub,
         username: payload.username,
-        roles: payload.roles,
       });
 
       return { access_token };
@@ -179,14 +182,18 @@ export class AuthService implements IAuthService {
   private async generateTokens(
     sub: string,
     username: string,
-    roles: string[],
+    _roles: string[],
   ): Promise<{ access_token: string; refresh_token: string }> {
-    const payload = { sub, username, roles };
+    const payload = { sub, username };
+    const refreshSecret = process.env.REFRESH_JWT_SECRET;
+    if (!refreshSecret) {
+      throw new Error('REFRESH_JWT_SECRET environment variable is required');
+    }
 
     const [access_token, refresh_token] = await Promise.all([
       this.jwtService.signAsync(payload),
       this.jwtService.signAsync(payload, {
-        secret: process.env.REFRESH_JWT_SECRET || 'default_refresh_secret',
+        secret: refreshSecret,
         expiresIn:
           (process.env.REFRESH_JWT_EXPIRES_IN ||
             '7d') as unknown as number,

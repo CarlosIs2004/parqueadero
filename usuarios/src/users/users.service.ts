@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
+import { UserRole } from '../user-role/entities/user-role.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { IUsersService } from './interfaces/users-service.interface';
 import { EventPublisher } from '../common/event-publisher.service';
@@ -16,6 +17,8 @@ export class UsersService implements IUsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(UserRole)
+    private userRoleRepository: Repository<UserRole>,
     private eventPublisher: EventPublisher,
   ) {}
 
@@ -85,6 +88,14 @@ export class UsersService implements IUsersService {
 
   async findByUsername(username: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { username } });
+  }
+
+  async getUserRoles(idPerson: string): Promise<string[]> {
+    const userRoles = await this.userRoleRepository.find({
+      where: { idUser: idPerson, active: true },
+      relations: { role: true },
+    });
+    return userRoles.map((ur) => ur.role.name);
   }
 
   async update(id: string, updateData: Partial<User>, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<User> {

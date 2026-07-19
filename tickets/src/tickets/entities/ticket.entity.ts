@@ -33,11 +33,11 @@ export class Ticket {
   idEspacio: string;
 
   @ApiProperty({ description: 'ID del usuario (cédula/RUC)' })
-  @Column({ name: 'id_usuario', type: 'varchar', length: 20 })
+  @Column({ name: 'id_usuario', type: 'varchar', length: 50 })
   idUsuario: string;
 
   @ApiProperty({ description: 'ID del vehículo' })
-  @Column({ name: 'id_vehiculo', type: 'varchar', length: 20 })
+  @Column({ name: 'id_vehiculo', type: 'varchar', length: 50 })
   idVehiculo: string;
 
   @ApiProperty({ description: 'Tipo de vehículo', enum: TipoVehiculo })
