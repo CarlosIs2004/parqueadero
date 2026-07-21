@@ -1,9 +1,10 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Person } from './entities/person.entity';
 import { UpdatePersonDto } from './dto/update-person.dto';
+import { CreatePersonOnlyDto } from './dto/create-person-only.dto';
 import type { IPersonsService } from './interfaces/persons-service.interface';
 import type { IUsersService } from '../users/interfaces/users-service.interface';
 import { EventPublisher } from '../common/event-publisher.service';
@@ -31,6 +32,58 @@ export class PersonsService implements IPersonsService {
       throw new NotFoundException(`Person with id ${id} not found`);
     }
     return person;
+  }
+
+  async createOnlyPerson(createPersonOnlyDto: CreatePersonOnlyDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Person> {
+    const existingPerson = await this.personsRepository.findOne({
+      where: [{ dni: createPersonOnlyDto.dni }, { email: createPersonOnlyDto.email }],
+    });
+
+    if (existingPerson) {
+      if (existingPerson.active) {
+        throw new ConflictException(
+          `A person with this DNI or email already exists (active)`,
+        );
+      }
+
+      Object.assign(existingPerson, {
+        ...createPersonOnlyDto,
+        active: true,
+      });
+      const saved = await this.personsRepository.save(existingPerson);
+
+      this.eventPublisher.publish({
+        servicio: 'ms-usuarios',
+        accion: 'CREATE',
+        entidad: 'PERSONA',
+        usuario,
+        rol,
+        datos: { dni: createPersonOnlyDto.dni, email: createPersonOnlyDto.email },
+        ip,
+        mac,
+      });
+
+      return this.findOne(saved.id);
+    }
+
+    const person = this.personsRepository.create({
+      ...createPersonOnlyDto,
+      active: createPersonOnlyDto.active ?? true,
+    });
+    const saved = await this.personsRepository.save(person);
+
+    this.eventPublisher.publish({
+      servicio: 'ms-usuarios',
+      accion: 'CREATE',
+      entidad: 'PERSONA',
+      usuario,
+      rol,
+      datos: { dni: createPersonOnlyDto.dni, email: createPersonOnlyDto.email },
+      ip,
+      mac,
+    });
+
+    return this.findOne(saved.id);
   }
 
   async update(id: string, updatePersonDto: UpdatePersonDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Person> {

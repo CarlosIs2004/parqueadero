@@ -1,4 +1,7 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, BadRequestException, Logger } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
+import { firstValueFrom } from 'rxjs';
 import { CreateVehiculoDto } from './dto/create-vehiculo.dto';
 import { UpdateVehiculoDto } from './dto/update-vehiculo.dto';
 import { Vehiculo } from './entities/vehiculo.entity';
@@ -9,12 +12,35 @@ import { AuditEvent, EventPublisher } from './event-publisher.service';
 
 @Injectable()
 export class VehiculosService {
+  private readonly logger = new Logger(VehiculosService.name);
 
   constructor(
     @InjectRepository(Vehiculo)
     private repositoryVehiculos:Repository<Vehiculo>,
-    private eventPublisher: EventPublisher
+    private readonly eventPublisher: EventPublisher,
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
   ){}
+
+  private get ticketsApiUrl(): string {
+    return this.configService.get<string>(
+      'TICKETS_API_URL',
+      'http://tickets_app:3004/tickets',
+    );
+  }
+
+  private get serviceJwtToken(): string | undefined {
+    return this.configService.get<string>('SERVICE_JWT_TOKEN');
+  }
+
+  private get headers(): Record<string, string> {
+    const headers: Record<string, string> = {};
+    const token = this.serviceJwtToken;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
+  }
   async create(createVehiculoDto: CreateVehiculoDto, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<Vehiculo> {
     const existe = await this.repositoryVehiculos.findOne({
       where:{
@@ -76,6 +102,30 @@ export class VehiculosService {
 
   async remove(id: string, ip?: string, mac?: string, usuario?: string, rol?: string): Promise<void> {
     const vehiculo = await this.findOne(id);
+
+    try {
+      const url = `${this.ticketsApiUrl}/vehiculo/${id}`;
+      this.logger.log(`Verificando tickets activos para vehículo ${id} — GET ${url}`);
+      const { data: tickets } = await firstValueFrom(
+        this.httpService.get<any[]>(url, { headers: this.headers }),
+      );
+
+      if (tickets && tickets.length > 0) {
+        const activos = tickets.filter(t => t.estadoTicket === 'activo');
+        if (activos.length > 0) {
+          throw new BadRequestException(
+            `No se puede eliminar el vehículo porque tiene ${activos.length} ticket(s) activo(s). ` +
+            `Finalice o anule los tickets antes de eliminar el vehículo.`,
+          );
+        }
+      }
+    } catch (error: any) {
+      if (error instanceof BadRequestException) throw error;
+      this.logger.warn(
+        `No se pudo verificar tickets del vehículo ${id}: ${error?.message}. Eliminando de todas formas.`,
+      );
+    }
+
     await this.repositoryVehiculos.remove(vehiculo);
     await this.emitEvent('DELETE', vehiculo, ip, mac, undefined, usuario, rol);
   }

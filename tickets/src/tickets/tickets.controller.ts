@@ -82,6 +82,15 @@ export class TicketsController {
     return this.ticketsService.update(id, updateTicketDto);
   }
 
+  @Get('vehiculo/:idVehiculo')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'recaudador')
+  @ApiOperation({ summary: 'Obtener tickets por vehículo (admin/recaudador)' })
+  @ApiResponse({ status: 200, description: 'Lista de tickets del vehículo', type: [Ticket] })
+  findByVehiculo(@Param('idVehiculo', ParseUUIDPipe) idVehiculo: string): Promise<Ticket[]> {
+    return this.ticketsService.findByVehiculo(idVehiculo);
+  }
+
   @Post(':id/cobrar')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('recaudador', 'admin')

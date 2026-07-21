@@ -45,12 +45,13 @@ export class TicketsService {
   }
 
   async create(createTicketDto: CreateTicketDto): Promise<Ticket> {
-    const [vehiculoData] = await Promise.all([
+    const [vehiculoData, espaciotipo] = await Promise.all([
       this.validationService.fetchVehiculoData(createTicketDto.idVehiculo),
       this.validationService.validateEspacio(createTicketDto.idEspacio),
       this.validationService.validateUsuario(createTicketDto.idUsuario),
       this.validationService.validateUsuario(createTicketDto.idEmpleado),
     ]);
+    this.validationService.validateCompatibilidad(vehiculoData.tipo, espaciotipo);
     const ticket = this.ticketRepository.create({
       ...createTicketDto,
       tipoVehiculo: this.mapTipoVehiculo(vehiculoData.tipo),
@@ -65,11 +66,18 @@ export class TicketsService {
       idEspacio: saved.idEspacio,
       idTicket: saved.idTicket,
     });
+    this.validationService.updateEspacioEstado(saved.idEspacio, 'OCUPADO');
     return saved;
   }
 
   async findAll(): Promise<Ticket[]> {
     return this.ticketRepository.find();
+  }
+
+  async findByVehiculo(idVehiculo: string): Promise<Ticket[]> {
+    return this.ticketRepository.find({
+      where: { idVehiculo },
+    });
   }
 
   async findOne(id: string): Promise<Ticket> {
@@ -150,6 +158,7 @@ export class TicketsService {
       idEspacio: saved.idEspacio,
       idTicket: saved.idTicket,
     });
+    this.validationService.updateEspacioEstado(saved.idEspacio, 'DISPONIBLE');
     return saved;
   }
 
@@ -168,6 +177,7 @@ export class TicketsService {
       idEspacio: saved.idEspacio,
       idTicket: saved.idTicket,
     });
+    this.validationService.updateEspacioEstado(saved.idEspacio, 'DISPONIBLE');
     return saved;
   }
 }

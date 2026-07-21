@@ -17,6 +17,7 @@ import type { Request } from 'express';
 import type { IPersonsService } from './interfaces/persons-service.interface';
 import { CreatePersonUseCase } from './use-cases/create-person.usecase';
 import { CreatePersonDto } from './dto/create-person.dto';
+import { CreatePersonOnlyDto } from './dto/create-person-only.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import { ResponsePersonDto } from './dto/response-person.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -50,6 +51,26 @@ export class PersonsController {
     const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
     const user = req.user as { username: string; roles: string[] } | undefined;
     return this.createPersonUseCase.execute(createPersonDto, ip, createPersonDto.mac, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
+  }
+
+  @Post('only')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Crear solo una persona sin usuario (solo admin)' })
+  @ApiResponse({
+    status: 201,
+    description: 'Persona creada exitosamente',
+    type: ResponsePersonDto,
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Conflicto: DNI o email ya existen',
+  })
+  createOnly(@Body() createPersonOnlyDto: CreatePersonOnlyDto, @Req() req: any) {
+    const ip = (req.headers['x-forwarded-for'] as string || req.ip || '').split(',')[0].trim();
+    const user = req.user as { username: string; roles: string[] } | undefined;
+    return this.personsService.createOnlyPerson(createPersonOnlyDto, ip, undefined, user?.username, (user?.roles?.find(r => r !== 'cliente') || user?.roles?.[0] || ''));
   }
 
   @Get('me')

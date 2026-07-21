@@ -32,6 +32,8 @@ services:
       DB_NOMBRE: ${DB_NAME}
       JWT_SECRET: ${JWT_SECRET:-mi_clave_super_secreta_2024_para_jwt!}
       USUARIOS_API_URL: http://usuarios:3001/users
+      TICKETS_API_URL: http://tickets_app:3004/tickets
+      SERVICE_JWT_TOKEN: ${SERVICE_JWT_TOKEN:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiMWQzNzg5My01NWU3LTQ4ZmQtYTE0OS1kOTNkNmFlNmI2NTEiLCJ1c2VybmFtZSI6InN2Y2ludGVybm8iLCJpYXQiOjE3ODQ1MTA5NzMsImV4cCI6MjEwMDA4Njk3M30.-1hWlbi_SlkC76T0hyS8cfqusfInHwbAYaiJqZusEzM}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: guest
@@ -137,7 +139,7 @@ services:
       VEHICULOS_API_URL: http://vehiculos:3000/vehiculos
       USUARIOS_API_URL: http://usuarios:3001/users
       ESPACIOS_API_URL: http://zonas:8080/api/v1/espacios
-      SERVICE_JWT_TOKEN: ${SERVICE_JWT_TOKEN:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlY2YwYzJhZS0yYzg1LTQxYjgtYjE1Ny00NmQ2N2Y0ZGQzMmQiLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzgzMzQ5OTA4LCJleHAiOjE3ODMzNTA4MDh9.adZX9vN3pV62p9v2t3khQSM3qAQrV4PqB4nq_Xl8jSA}
+      SERVICE_JWT_TOKEN: ${SERVICE_JWT_TOKEN:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiMWQzNzg5My01NWU3LTQ4ZmQtYTE0OS1kOTNkNmFlNmI2NTEiLCJ1c2VybmFtZSI6InN2Y2ludGVybm8iLCJpYXQiOjE3ODQ1MTA5NzMsImV4cCI6MjEwMDA4Njk3M30.-1hWlbi_SlkC76T0hyS8cfqusfInHwbAYaiJqZusEzM}
     depends_on:
       - db_postgres
     networks:

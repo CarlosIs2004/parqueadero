@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import { AfterLoad, Column, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 
 export enum Clasificacion {
     ELECTRICO = 'Electrico',
@@ -40,7 +40,11 @@ export abstract class Vehiculo {
     @Column({type: 'enum', enum: Clasificacion, default: Clasificacion.GASOLINA})
     clasificacion!: Clasificacion;
 
-    
+    @AfterLoad()
+    setTipo(): void {
+        (this as any).tipo = this.obtenerTipo();
+    }
+
     abstract obtenerTipo(): string;
 
 }

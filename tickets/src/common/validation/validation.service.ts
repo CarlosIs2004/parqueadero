@@ -8,6 +8,8 @@ export interface VehiculoData {
   placa: string;
 }
 
+export type EstadoEspacio = 'DISPONIBLE' | 'OCUPADO' | 'INACTIVO';
+
 @Injectable()
 export class ValidationService {
   private readonly logger = new Logger(ValidationService.name);
@@ -58,14 +60,21 @@ export class ValidationService {
         }),
       );
       if (status === 200) return;
+      throw new BadRequestException(
+        `El vehículo con ID "${id}" no existe (status: ${status})`,
+      );
     } catch (error: any) {
+      if (error instanceof BadRequestException) throw error;
       if (error?.response?.status === 404) {
         throw new BadRequestException(
           `El vehículo con ID "${id}" no existe`,
         );
       }
-      this.logger.warn(
-        `No se pudo validar vehículo ${id}: ${error?.message}. Continuando sin validación.`,
+      this.logger.error(
+        `Error validando vehículo ${id}: ${error?.message}`,
+      );
+      throw new BadRequestException(
+        `No se pudo validar el vehículo "${id}": ${error?.message || 'error de conexión'}`,
       );
     }
   }
@@ -78,34 +87,50 @@ export class ValidationService {
         }),
       );
       if (status === 200) return;
+      throw new BadRequestException(
+        `El usuario con ID "${id}" no existe (status: ${status})`,
+      );
     } catch (error: any) {
+      if (error instanceof BadRequestException) throw error;
       if (error?.response?.status === 404) {
         throw new BadRequestException(
           `El usuario con ID "${id}" no existe`,
         );
       }
-      this.logger.warn(
-        `No se pudo validar usuario ${id}: ${error?.message}. Continuando sin validación.`,
+      this.logger.error(
+        `Error validando usuario ${id}: ${error?.message}`,
+      );
+      throw new BadRequestException(
+        `No se pudo validar el usuario "${id}": ${error?.message || 'error de conexión'}`,
       );
     }
   }
 
-  async validateEspacio(id: string): Promise<void> {
+  async validateEspacio(id: string): Promise<string> {
     try {
-      const { status } = await firstValueFrom(
-        this.httpService.get(`${this.espaciosUrl}/${id}`, {
+      const { data } = await firstValueFrom(
+        this.httpService.get<{ estado: string; tipo: string }>(`${this.espaciosUrl}/${id}`, {
           headers: this.headers,
         }),
       );
-      if (status === 200) return;
+      if (data.estado !== 'DISPONIBLE') {
+        throw new BadRequestException(
+          `El espacio con ID "${id}" no está disponible. Estado actual: "${data.estado}"`,
+        );
+      }
+      return data.tipo;
     } catch (error: any) {
+      if (error instanceof BadRequestException) throw error;
       if (error?.response?.status === 404) {
         throw new BadRequestException(
           `El espacio con ID "${id}" no existe`,
         );
       }
-      this.logger.warn(
-        `No se pudo validar espacio ${id}: ${error?.message}. Continuando sin validación.`,
+      this.logger.error(
+        `Error validando espacio ${id}: ${error?.message}`,
+      );
+      throw new BadRequestException(
+        `No se pudo validar el espacio "${id}": ${error?.message || 'error de conexión'}`,
       );
     }
   }
@@ -124,10 +149,53 @@ export class ValidationService {
           `El vehículo con ID "${id}" no existe`,
         );
       }
-      this.logger.warn(
-        `No se pudo obtener datos del vehículo ${id}: ${error?.message}. Usando valores por defecto.`,
+      this.logger.error(
+        `Error obteniendo datos del vehículo ${id}: ${error?.message}`,
       );
-      return { tipo: 'Auto', placa: 'SIN-PLACA' };
+      throw new BadRequestException(
+        `No se pudieron obtener los datos del vehículo "${id}": ${error?.message || 'error de conexión'}`,
+      );
+    }
+  }
+
+  /**
+   * Mapea el tipo de vehículo del servicio vehiculos al tipo de espacio del servicio zonas.
+   */
+  private mapVehiculoTipoToEspacioTipo(vehiculoTipo: string): string | null {
+    const mapping: Record<string, string> = {
+      Auto: 'AUTO',
+      Motocicleta: 'MOTO',
+      Camioneta: 'BUSETA',
+    };
+    return mapping[vehiculoTipo] ?? null;
+  }
+
+  /**
+   * Valida que el tipo de vehículo sea compatible con el tipo de espacio.
+   */
+  validateCompatibilidad(vehiculoTipo: string, espaciotipo: string): void {
+    const espaciTipoEsperado = this.mapVehiculoTipoToEspacioTipo(vehiculoTipo);
+    if (espaciTipoEsperado && espaciTipoEsperado !== espaciotipo) {
+      throw new BadRequestException(
+        `El vehículo tipo "${vehiculoTipo}" no es compatible con el espacio tipo "${espaciotipo}". ` +
+        `Espacios esperados para este vehículo: "${espaciTipoEsperado}"`,
+      );
+    }
+  }
+
+  async updateEspacioEstado(id: string, estado: EstadoEspacio): Promise<void> {
+    try {
+      const url = `${this.espaciosUrl}/${id}/estado?estado=${estado}`;
+      this.logger.log(`Actualizando estado del espacio ${id} a ${estado} — PATCH ${url}`);
+      await firstValueFrom(
+        this.httpService.patch(url, null, { headers: this.headers }),
+      );
+    } catch (error: any) {
+      this.logger.error(
+        `Error actualizando estado del espacio ${id} a ${estado}: ${error?.message}`,
+      );
+      // No lanzamos excepción acá para que no rompa el flujo del ticket
+      // si el estado del espacio falla. Se loguea nomás.
     }
   }
 }
