@@ -8,6 +8,7 @@ import { Auto } from './entities/auto.entity';
 import { Motocicleta } from './entities/motocicleta.entity';
 import { Camioneta } from './entities/camioneta.entity';
 import { EventPublisher } from './event-publisher.service';
+import { VehicleSeedService } from './vehicle-seed.service';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { EventPublisher } from './event-publisher.service';
     HttpModule,
   ],
   controllers: [VehiculosController],
-  providers: [VehiculosService, EventPublisher],
+  providers: [VehiculosService, EventPublisher, VehicleSeedService],
   exports: [VehiculosService],
 })
 export class VehiculosModule {}
