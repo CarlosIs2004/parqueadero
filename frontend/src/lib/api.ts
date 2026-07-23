@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8000"
+const API_BASE = ""
 
 function getAccessToken(): string | null {
   return localStorage.getItem("access_token")

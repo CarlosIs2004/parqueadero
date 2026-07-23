@@ -77,6 +77,43 @@ export class UpdateVehiculoDto {
     })
     clasificacion?: string;
 
+    // ── Campos específicos por tipo (opcionales) ──────────────
+    @ApiPropertyOptional({ description: 'Número de puertas (auto)', example: 4, minimum: 2, maximum: 5 })
+    @IsOptional()
+    @IsInt({ message: "El número de puertas debe ser un número entero" })
+    @Min(2, { message: "El número de puertas debe ser al menos 2" })
+    @Max(5, { message: "El número de puertas no debe exceder 5" })
+    numeroPuertas?: number;
+
+    @ApiPropertyOptional({ description: 'Capacidad del maletero en litros (auto)', example: 470, minimum: 0 })
+    @IsOptional()
+    @IsInt({ message: "La capacidad del maletero debe ser un número entero" })
+    @Min(0, { message: "La capacidad del maletero debe ser un número positivo" })
+    capacidadMaletero?: number;
+
+    @ApiPropertyOptional({ description: 'Tipo de motocicleta (moto)', enum: ['Deportivo', 'Scooter', 'Motocross'], example: 'Deportivo' })
+    @IsOptional()
+    @IsString()
+    @Matches(/^(Deportivo|Scooter|Motocross)$/, {
+        message: "El tipo de motocicleta debe ser Deportivo, Scooter o Motocross"
+    })
+    tipoMoto?: string;
+
+    @ApiPropertyOptional({ description: 'Tipo de cabina (camioneta)', example: 'Simple', maxLength: 150 })
+    @IsOptional()
+    @IsString()
+    @Matches(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ.,\-#&()]+$/, {
+        message: "La cabina solo puede contener letras y espacios"
+    })
+    cabina?: string;
+
+    @ApiPropertyOptional({ description: 'Capacidad de carga en kg (camioneta)', example: 1500, minimum: 0, maximum: 100000 })
+    @IsOptional()
+    @IsInt({ message: "La capacidad de carga debe ser un número entero" })
+    @Min(0, { message: "La capacidad de carga debe ser un número positivo" })
+    @Max(100000, { message: "La capacidad de carga no debe exceder los 100000 kg" })
+    capacidadCarga?: number;
+
     @ApiPropertyOptional({ description: 'Dirección MAC del cliente', example: '00:1A:2B:3C:4D:5E' })
     @IsOptional()
     @IsString()
