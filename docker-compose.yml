@@ -156,6 +156,9 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_DNS_ORDER: AAAA,A
+      KONG_DNS_STALE_TTL: 5
+      KONG_DNS_NOT_FOUND_TTL: 5
     ports:
       - "8000:8000"
       - "8443:8443"

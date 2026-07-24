@@ -10,15 +10,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import { Toaster } from "@/components/ui/sonner"
 
 const schema = z.object({
-  firstName: z.string().min(1, "Requerido").max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúNnÜü\s]+$/, "Solo letras"),
-  lastName: z.string().min(1, "Requerido").max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúNnÜü\s]+$/, "Solo letras"),
-  middleName: z.string().max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúNnÜü\s]*$/, "Solo letras").optional().or(z.literal("")),
+  firstName: z.string().min(1, "Requerido").max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúÑñÜü\s]+$/, "Solo letras"),
+  lastName: z.string().min(1, "Requerido").max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúÑñÜü\s]+$/, "Solo letras"),
+  middleName: z.string().max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúÑñÜü\s]*$/, "Solo letras").optional().or(z.literal("")),
   dni: z.string().length(10, "Debe tener exactamente 10 dígitos").regex(/^\d+$/, "Solo números"),
   email: z.string().email("Email inválido").max(50, "Máximo 50 caracteres"),
   phone: z.string().min(7, "Mínimo 7 dígitos").max(15, "Máximo 15 caracteres").regex(/^\d+$/, "Solo números"),
-  nationality: z.string().min(1, "Requerido").max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúNnÜü\s]+$/, "Solo letras"),
+  nationality: z.string().min(1, "Requerido").max(30, "Máximo 30 caracteres").regex(/^[A-Za-zÁáÉéÍíÓóÚúÑñÜü\s]+$/, "Solo letras"),
   address: z.string().min(1, "Dirección requerida"),
   username: z.string().min(4, "Mínimo 4 caracteres").max(15, "Máximo 15 caracteres").regex(/^[a-zA-Z0-9_]+$/, "Solo letras, números y guión bajo"),
   password: z.string().min(11, "Mínimo 11 caracteres").max(60, "Máximo 60 caracteres"),
@@ -33,30 +34,27 @@ export default function RegisterPage() {
     onValidate({ formData }) {
       return parseWithZod(formData, { schema })
     },
+    onSubmit: async (event, { formData }) => {
+      event.preventDefault()
+      const data = Object.fromEntries(formData) as Record<string, unknown>
+      setLoading(true)
+      try {
+        await register(data)
+        toast.success("Registro exitoso. Ahora puedes iniciar sesión.", { id: "register-success" })
+        navigate("/login")
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Error al registrar"
+        toast.error(msg, { id: "register-error" })
+      } finally {
+        setLoading(false)
+      }
+    },
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   })
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
-    if (!data.middleName) delete data.middleName
-
-    setLoading(true)
-    try {
-      await register(data as Record<string, unknown>)
-      toast.success("Registro exitoso. Ahora puedes iniciar sesión.")
-      navigate("/login")
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Error al registrar"
-      toast.error(msg)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
+    <><Toaster richColors position="top-right" />
     <div className="flex min-h-screen items-center justify-center bg-muted/30 p-4">
       <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
@@ -64,7 +62,7 @@ export default function RegisterPage() {
           <CardDescription>Regístrate como cliente</CardDescription>
         </CardHeader>
         <CardContent>
-          <form id={form.id} onSubmit={handleSubmit} noValidate className="space-y-4">
+          <form id={form.id} onSubmit={form.onSubmit} noValidate className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">Nombre *</Label>
@@ -80,6 +78,7 @@ export default function RegisterPage() {
             <div className="space-y-2">
               <Label htmlFor="middleName">Segundo nombre</Label>
               <Input id="middleName" name="middleName" placeholder="Antonio" />
+              {fields.middleName.errors && <p className="text-sm text-destructive">{fields.middleName.errors}</p>}
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -135,6 +134,6 @@ export default function RegisterPage() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </div></>
   )
 }

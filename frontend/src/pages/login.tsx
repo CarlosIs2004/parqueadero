@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import { Toaster } from "@/components/ui/sonner"
 
 const schema = z.object({
   username: z.string().min(4, "Mínimo 4 caracteres").max(15, "Máximo 15 caracteres").regex(/^[a-zA-Z0-9_]+$/, "Solo letras, números y guión bajo"),
@@ -32,22 +33,25 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData) as { username: string; password: string }
+    const submission = parseWithZod(formData, { schema })
+    if (submission.status !== "success") return
+    const { username, password } = Object.fromEntries(formData) as { username: string; password: string }
 
     setLoading(true)
     try {
-      await login(data.username, data.password)
-      toast.success("Inicio de sesión exitoso")
+      await login(username, password)
+      toast.success("Inicio de sesión exitoso", { id: "login-success" })
       navigate("/dashboard")
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Credenciales inválidas"
-      toast.error(msg)
+      toast.error(msg, { id: "login-error" })
     } finally {
       setLoading(false)
     }
   }
 
   return (
+    <><Toaster richColors position="top-right" />
     <div className="flex min-h-screen items-center justify-center bg-muted/30 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
@@ -79,6 +83,6 @@ export default function LoginPage() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </div></>
   )
 }
