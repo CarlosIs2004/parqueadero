@@ -222,6 +222,16 @@ services:
     networks:
       - app-net
 
+  frontend:
+    build: ./frontend
+    container_name: frontend_app
+    ports:
+      - "5173:5173"
+    depends_on:
+      - kong
+    networks:
+      - app-net
+
 volumes:
   postgres_data:
   postgres_audit_data:

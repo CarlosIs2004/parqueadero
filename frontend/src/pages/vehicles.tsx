@@ -98,10 +98,7 @@ const INITIAL_FORM: VehicleFormData = {
   clasificacion: "Gasolina",
   numeroPuertas: 4,
   capacidadMaletero: 470,
-  tipoMoto: "Deportivo",
-  cabina: "Doble",
-  capacidadCarga: 1500,
-}
+} as VehicleFormData
 
 function getVehicleDetails(v: Vehicle): string {
   const t = v.tipo?.toLowerCase()
@@ -270,7 +267,7 @@ export default function VehiclesPage() {
   const isMoto = form.tipo === "moto"
   const isCamioneta = form.tipo === "camioneta"
 
-  const searchIcon = search ? X : Search
+  const SearchIcon = search ? X : Search
 
   // ── Render ─────────────────────────────────────────────────────
   return (
@@ -488,7 +485,7 @@ export default function VehiclesPage() {
           })}
         </div>
         <div className="relative w-full sm:w-64">
-          <searchIcon
+          <SearchIcon
             className={`absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 ${
               search ? "text-primary cursor-pointer" : "text-muted-foreground"
             }`}
