@@ -81,6 +81,11 @@ export default function LoginPage() {
               Registrarse
             </Link>
           </p>
+          <div className="mt-4 text-center">
+            <Link to="/" className="text-sm text-muted-foreground hover:text-primary underline underline-offset-4">
+              ← Volver al dashboard
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div></>
